@@ -2,6 +2,7 @@ package com.Travel.Config.Mail;
 
 import com.Travel.biz.Mail.Service.MailService;
 import com.Travel.biz.Mail.Service.MailServiceImpl;
+import com.Travel.init.AspectConfig;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,14 +14,14 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import java.util.Properties;
 
 @Configuration
-@Import(value = MailAspectConfig.class)
+@Import(value = AspectConfig.class)
 @PropertySource("/properties/mail.properties")
 public class MailConfig {
-    @Value("${mail.host}") String host;
-    @Value("${mail.port}") String port;
     @Value("${mail.username}") String username;
     @Value("${mail.password}") String password;
     @Value("${mail.defaultEncoding}") String defaultEncoding;
+    @Value("${mail.host}") String host;
+    @Value("${mail.port}") String port;
     @Value("${mail.protocol}") String protocol;
 
     private static final String MAIL_DEBUG = "mail.smtp.debug";
@@ -39,12 +40,12 @@ public class MailConfig {
         javaMailSender.setUsername(username);
         javaMailSender.setPassword(password);
         javaMailSender.setDefaultEncoding(defaultEncoding);
-        javaMailSender.setJavaMailProperties(getMailProperties());
+        javaMailSender.setJavaMailProperties(getGMailProperties());
 
         return javaMailSender;
     }
 
-    private Properties getMailProperties() {
+    private Properties getGMailProperties() {
         Properties properties = new Properties();
         properties.setProperty(MAIL_TRANSPORT_PROTOCOL, protocol);
         properties.setProperty(MAIL_SMTP_STARTTLS_ENABLE, "true");

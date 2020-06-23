@@ -1,12 +1,13 @@
-package com.Travel.Config.Mail;
+package com.Travel.init;
 
+import com.Travel.Config.Mail.MailAspect;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 @Configuration
 @EnableAspectJAutoProxy
-public class MailAspectConfig {
+public class AspectConfig {
     @Bean
     public MailAspect mailAspect() {
         MailAspect mailAspect = new MailAspect();

@@ -6,7 +6,7 @@
 <configuration>
 
     <typeAliases>
-        <typeAlias alias="User" type="com.Travel.biz.User.Domain.User" />
+        <typeAlias alias="User" type="com.Travel.biz.User.VO.UserVO" />
     </typeAliases>
 
 </configuration>
