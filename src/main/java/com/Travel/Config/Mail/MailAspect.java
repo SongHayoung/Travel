@@ -11,7 +11,7 @@ import org.springframework.mail.javamail.MimeMessagePreparator;
 public class MailAspect {
     @Autowired JavaMailSender mailSender;
 
-    @Around("execution(* com.Travel.biz.Mail..*.*MailToUser(..))")
+    @Around("execution(* com.Travel.biz.Mail..*.*MailSend(..))")
     public void around(ProceedingJoinPoint pjp) {
         MimeMessagePreparator preparator = null;
         try {

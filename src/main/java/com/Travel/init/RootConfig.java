@@ -2,10 +2,6 @@ package com.Travel.init;
 
 import com.Travel.biz.User.Dao.UserDao;
 import com.Travel.biz.User.Dao.UserDaoJdbc;
-import com.Travel.biz.User.Service.Info.UserInfoService;
-import com.Travel.biz.User.Service.Info.UserInfoServiceImpl;
-import com.Travel.biz.User.Service.Register.UserRegisterService;
-import com.Travel.biz.User.Service.Register.UserRegisterServiceImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -44,20 +40,8 @@ public class RootConfig {
     }
 
     @Bean
-    public UserDao userDao() {
+    public UserDao userDao(){
         UserDaoJdbc userDao = new UserDaoJdbc();
         return userDao;
-    }
-
-    @Bean
-    public UserInfoService userInfoService() {
-        UserInfoServiceImpl userInfoService = new UserInfoServiceImpl();
-        return userInfoService;
-    }
-
-    @Bean
-    public UserRegisterService userRegisterService() {
-        UserRegisterServiceImpl userRegisterService = new UserRegisterServiceImpl();
-        return userRegisterService;
     }
 }
