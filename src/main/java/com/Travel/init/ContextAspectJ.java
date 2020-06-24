@@ -7,7 +7,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 @Configuration
 @EnableAspectJAutoProxy
-public class AspectConfig {
+public class ContextAspectJ {
     @Bean
     public MailAspect mailAspect() {
         MailAspect mailAspect = new MailAspect();

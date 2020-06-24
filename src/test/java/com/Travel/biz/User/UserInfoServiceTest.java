@@ -1,15 +1,14 @@
 package com.Travel.biz.User;
 
-import com.Travel.Config.Database.MyBatis.MyBatisConfig;
-import com.Travel.Config.Mail.MailConfig;
-import com.Travel.biz.Mail.Service.MailService;
+import com.Travel.init.ContextMyBatis;
+import com.Travel.init.ContextMail;
 import com.Travel.biz.User.Dao.UserDao;
 import com.Travel.biz.User.Service.Info.PasswordValidationFailureException;
 import com.Travel.biz.User.Service.Info.PasswordValueNotChangedException;
 import com.Travel.biz.User.Service.Info.UserInfoService;
 import com.Travel.biz.User.Service.Register.UserRegisterService;
 import com.Travel.biz.User.VO.UserVO;
-import com.Travel.init.RootConfig;
+import com.Travel.init.RootContextConfiguration;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,7 +28,7 @@ import static org.hamcrest.CoreMatchers.is;
 @RunWith(SpringJUnit4ClassRunner.class)
 @Rollback
 @Transactional(propagation= Propagation.REQUIRES_NEW)
-@ContextConfiguration(classes= {RootConfig.class, MyBatisConfig.class, MailConfig.class})
+@ContextConfiguration(classes= {RootContextConfiguration.class, ContextMyBatis.class, ContextMail.class})
 public class UserInfoServiceTest {
     @Autowired UserInfoService userInfoService;
     @Autowired UserRegisterService userRegisterService;
@@ -39,11 +38,11 @@ public class UserInfoServiceTest {
     @Before
     public void setUp(){
         users = Arrays.asList(
-                new UserVO("user1", "pass1", "kim", "F", "test1@test.com", "nickname1"),
-                new UserVO("user2", "pass2", "song", "F", "test2@test.com", "nickname2"),
-                new UserVO("user3", "pass3", "lee", "F", "test3@test.com", "nickname3"),
-                new UserVO("user4", "pass4", "kim", "F", "test4@test.com", "nickname4"),
-                new UserVO("user5", "pass5", "park", "F", "test5@test.com", "nickname5")
+                UserVO.builder().id("user1").pass("pass1").name("kim").gender("F").email("test1@test.com").nickname("nickname1").build(),
+                UserVO.builder().id("user2").pass("pass2").name("song").gender("F").email("test2@test.com").nickname("nickname2").build(),
+                UserVO.builder().id("user3").pass("pass3").name("lee").gender("F").email("test3@test.com").nickname("nickname3").build(),
+                UserVO.builder().id("user4").pass("pass4").name("kim").gender("F").email("test4@test.com").nickname("nickname4").build(),
+                UserVO.builder().id("user5").pass("pass5").name("park").gender("F").email("test5@test.com").nickname("nickname5").build()
         );
     }
 

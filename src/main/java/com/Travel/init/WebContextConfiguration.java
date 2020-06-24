@@ -9,13 +9,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @Configuration
-@ComponentScan(basePackages = {"com.Travel.biz"})
-public class MvcConfig implements WebMvcConfigurer {
-    /**
-     * 뷰 리졸버를 설정한다.
-     * @return
-     */
-
+@ComponentScan(basePackages = {"com.Travel.biz.*"})
+public class WebContextConfiguration implements WebMvcConfigurer {
     @Bean
     public ViewResolver getViewResolver() {
         InternalResourceViewResolver resolver = new InternalResourceViewResolver();

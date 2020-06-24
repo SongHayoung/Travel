@@ -1,14 +1,9 @@
 package com.Travel.init;
 
-import com.Travel.biz.User.Dao.UserDao;
-import com.Travel.biz.User.Dao.UserDaoJdbc;
-import com.Travel.biz.User.Service.Info.UserInfoService;
-import com.Travel.biz.User.Service.Info.UserInfoServiceImpl;
-import com.Travel.biz.User.Service.Register.UserRegisterService;
-import com.Travel.biz.User.Service.Register.UserRegisterServiceImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
@@ -18,8 +13,9 @@ import javax.sql.DataSource;
 import java.sql.Driver;
 
 @Configuration
+@Import(ContextMyBatis.class)
 @PropertySource("/properties/datasource.properties")
-public class RootConfig {
+public class ContextDatabase {
     @Value("${db.driverClass}") Class<? extends Driver> driver;
     @Value("${db.username}") String user;
     @Value("${db.password}") String password;
@@ -41,23 +37,5 @@ public class RootConfig {
         DataSourceTransactionManager tm = new DataSourceTransactionManager();
         tm.setDataSource(dataSource());
         return tm;
-    }
-
-    @Bean
-    public UserDao userDao() {
-        UserDaoJdbc userDao = new UserDaoJdbc();
-        return userDao;
-    }
-
-    @Bean
-    public UserInfoService userInfoService() {
-        UserInfoServiceImpl userInfoService = new UserInfoServiceImpl();
-        return userInfoService;
-    }
-
-    @Bean
-    public UserRegisterService userRegisterService() {
-        UserRegisterServiceImpl userRegisterService = new UserRegisterServiceImpl();
-        return userRegisterService;
     }
 }

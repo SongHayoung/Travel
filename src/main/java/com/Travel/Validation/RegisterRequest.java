@@ -1,17 +1,12 @@
-package com.Travel.biz.User.VO;
+package com.Travel.Validation;
 
-import lombok.Builder;
 import lombok.Data;
 
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-/**
- * @Data == @Getter @Setter @ToString @EqualAndHashCode
- */
 @Data
-@Builder
-public class UserVO {
+public class RegisterRequest {
     @Pattern(regexp = "^[a-zA-Z]{1}[a-zA-Z0-9_]{4,11}$")
     String id;
 

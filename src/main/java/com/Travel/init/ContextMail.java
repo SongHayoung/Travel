@@ -1,12 +1,10 @@
-package com.Travel.Config.Mail;
+package com.Travel.init;
 
 import com.Travel.biz.Mail.Service.MailService;
 import com.Travel.biz.Mail.Service.MailServiceImpl;
-import com.Travel.init.AspectConfig;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -14,9 +12,8 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import java.util.Properties;
 
 @Configuration
-@Import(value = AspectConfig.class)
 @PropertySource("/properties/mail.properties")
-public class MailConfig {
+public class ContextMail {
     @Value("${mail.username}") String username;
     @Value("${mail.password}") String password;
     @Value("${mail.defaultEncoding}") String defaultEncoding;

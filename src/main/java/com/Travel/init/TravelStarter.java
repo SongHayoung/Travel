@@ -9,12 +9,12 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 
-public class WebInitalizer implements WebApplicationInitializer {
+public class TravelStarter implements WebApplicationInitializer {
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
         AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
-        rootContext.register(RootConfig.class);
-        rootContext.register(MvcConfig.class);
+        rootContext.register(RootContextConfiguration.class);
+        rootContext.register(WebContextConfiguration.class);
         servletContext.addListener(new ContextLoaderListener(rootContext));
 
         ServletRegistration.Dynamic dispatcher = servletContext.addServlet("dispatcher", new DispatcherServlet(rootContext));

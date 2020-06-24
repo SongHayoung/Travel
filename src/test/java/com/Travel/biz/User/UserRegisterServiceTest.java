@@ -1,14 +1,14 @@
 package com.Travel.biz.User;
 
-import com.Travel.Config.Database.MyBatis.MyBatisConfig;
-import com.Travel.Config.Mail.MailConfig;
+import com.Travel.init.ContextMyBatis;
+import com.Travel.init.ContextMail;
 import com.Travel.biz.User.Dao.UserDao;
 import com.Travel.biz.User.Service.Register.DuplicateUserEmailException;
 import com.Travel.biz.User.Service.Register.DuplicateUserIdException;
 import com.Travel.biz.User.Service.Register.InvalidEmailAddressException;
 import com.Travel.biz.User.Service.Register.UserRegisterService;
 import com.Travel.biz.User.VO.UserVO;
-import com.Travel.init.RootConfig;
+import com.Travel.init.RootContextConfiguration;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,7 +28,7 @@ import static org.hamcrest.CoreMatchers.is;
 @RunWith(SpringJUnit4ClassRunner.class)
 @Rollback
 @Transactional(propagation= Propagation.REQUIRES_NEW)
-@ContextConfiguration(classes= {RootConfig.class, MyBatisConfig.class, MailConfig.class})
+@ContextConfiguration(classes= {RootContextConfiguration.class, ContextMyBatis.class, ContextMail.class})
 public class UserRegisterServiceTest {
     @Autowired UserRegisterService userRegisterService;
     @Autowired UserDao userDao;
@@ -37,11 +37,11 @@ public class UserRegisterServiceTest {
     @Before
     public void setUp() {
         users = Arrays.asList(
-                new UserVO("user1", "pass1", "kim", "F", "test1@test.com", "nickname1"),
-                new UserVO("user2", "pass2", "song", "F", "lovelydays95@gmail.com", "nickname2"),
-                new UserVO("user1", "pass3", "lee", "F", "test3@test.com", "nickname3"),
-                new UserVO("user4", "pass4", "kim", "F", "hello2234@naver.com", "nickname4"),
-                new UserVO("user5", "pass5", "kim", "F", "user@.invalid.com", "nickname4")
+                UserVO.builder().id("user1").pass("pass1").name("kim").gender("F").email("test1@test.com").nickname("nickname1").build(),
+                UserVO.builder().id("user2").pass("pass2").name("song").gender("F").email("lovelydays95@gmail.com").nickname("nickname2").build(),
+                UserVO.builder().id("user1").pass("pass3").name("lee").gender("F").email("test3@test.com").nickname("nickname3").build(),
+                UserVO.builder().id("user4").pass("pass4").name("kim").gender("F").email("hello2234@naver.com").nickname("nickname4").build(),
+                UserVO.builder().id("user5").pass("pass5").name("kim").gender("F").email("user@.invalid.com").nickname("nickname4").build()
         );
     }
 
@@ -56,7 +56,6 @@ public class UserRegisterServiceTest {
     public void duplicateIdFailure() {
         userRegisterService.addUser(users.get(0));
         userRegisterService.confirmUserId(users.get(2).getId());
-
     }
 
     @Test(expected = DuplicateUserEmailException.class)

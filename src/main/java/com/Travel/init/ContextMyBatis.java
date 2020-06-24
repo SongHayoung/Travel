@@ -1,4 +1,4 @@
-package com.Travel.Config.Database.MyBatis;
+package com.Travel.init;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -13,9 +13,9 @@ import org.springframework.core.io.ClassPathResource;
 import javax.sql.DataSource;
 
 @Configuration
-public class MyBatisConfig {
+public class ContextMyBatis {
     @Autowired ApplicationContext applicationContext;
-    private static final String CLASS_PATH = "com/Travel/Config/Database/Mybatis/";
+    private static final String CLASS_PATH = "configurations/Database/Mybatis/";
     @Bean
     public SqlSessionFactory sqlSessionFactory() throws Exception {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();

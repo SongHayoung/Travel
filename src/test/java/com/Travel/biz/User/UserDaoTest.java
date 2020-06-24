@@ -1,9 +1,8 @@
 package com.Travel.biz.User;
 
-import com.Travel.Config.Database.MyBatis.MyBatisConfig;
 import com.Travel.biz.User.Dao.UserDao;
 import com.Travel.biz.User.VO.UserVO;
-import com.Travel.init.RootConfig;
+import com.Travel.init.RootContextConfiguration;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RunWith(SpringJUnit4ClassRunner.class)
 @Rollback
 @Transactional(propagation= Propagation.REQUIRES_NEW)
-@ContextConfiguration(classes= {RootConfig.class, MyBatisConfig.class})
+@ContextConfiguration(classes= {RootContextConfiguration.class})
 public class UserDaoTest {
     @Autowired UserDao userDao;
     private UserVO user1;
@@ -25,8 +24,8 @@ public class UserDaoTest {
 
     @Before
     public void setUP(){
-        user1 = new UserVO("user1", "user1", "kim", "F", "test@test.com", "nickname1");
-        user2 = new UserVO("user2", "user2", "song", "M", "test1@test.com", "nickname1");
+        user1 = UserVO.builder().id("user1").pass("user1").name("kim").gender("F").email("test@test.com").nickname("nickname1").build();
+        user2 = UserVO.builder().id("user2").pass("user2").name("song").gender("M").email("test1@test.com").nickname("nickname1").build();
     }
 
     @Test
