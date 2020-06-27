@@ -1,0 +1,14 @@
+datasource:
+  driverClass: com.mysql.cj.jdbc.Driver
+  url: jdbc:mysql://localhost/Travel?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+  username: root
+  password: admin
+
+mail:
+  username: lovelydays95@gmail.com
+  password: gmlghks1012
+  defaultEncoding: utf8
+  regMailSubject: 서비스 가입 메일입니다
+  host: smtp.gmail.com
+  port: 587
+  protocol: smtp
