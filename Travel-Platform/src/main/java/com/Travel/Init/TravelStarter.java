@@ -13,8 +13,10 @@ public class TravelStarter implements WebApplicationInitializer {
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
         AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
-        rootContext.register(com.Travel.Init.RootContextConfiguration.class);
-        rootContext.register(UserServiceWebContextConfiguration.class);
+        rootContext.register(RootContextConfiguration.class);
+        rootContext.register(UserServiceContextConfiguration.class);
+
+        rootContext.register(WebContextConfiguration.class);
         servletContext.addListener(new ContextLoaderListener(rootContext));
 
         ServletRegistration.Dynamic dispatcher = servletContext.addServlet("dispatcher", new DispatcherServlet(rootContext));

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="User">
+    <insert id="insertUser" parameterType="User">
+        INSERT INTO User (name, id, pass, gender, email, nickname)
+            values( #{name}, #{id}, #{pass}, #{gender}, #{email}, #{nickname})
+    </insert>
+
+    <select id="getUserById" parameterType="String" resultType="User">
+        SELECT * FROM User WHERE id = #{id}
+    </select>
+
+    <update id="updateUser" parameterType="User">
+        UPDATE User SET email = #{email}, nickname = #{nickname}, pass = #{pass} WHERE id = #{id}
+    </update>
+
+    <delete id="deleteUser" parameterType="User">
+        DELETE FROM User WHERE id = #{id}
+    </delete>
+
+    <select id="getUserFriends" parameterType="String" resultType="User">
+        SELECT * FROM User order by id
+    </select>
+
+    <select id="getUserCount" resultType="int">
+        SELECT COUNT(*) FROM User
+    </select>
+
+    <select id="getIdExists" parameterType="String" resultType="int">
+        SELECT EXISTS (SELECT * FROM User where id = #{id}) as success
+    </select>
+
+    <select id="getEmailExists" parameterType="String" resultType="int">
+        SELECT EXISTS (SELECT * FROM User where email = #{email}) as success
+    </select>
+</mapper>

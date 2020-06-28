@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Area">
+    <insert id="insertArea" parameterType="Area">
+        INSERT INTO user_area (user_sid, tag_id) VALUES (
+        (SELECT sid FROM User Where User.id = #{id}),
+        (SELECT tag_id FROM Area_tag WHERE Area_tag.name = #{areaName}));
+    </insert>
+
+    <delete id="deleteArea" parameterType="Area">
+        DELETE FROM user_area WHERE (
+        user_sid = (SELECT sid FROM User Where User.id = #{id}) AND
+        tag_id = (SELECT tag_id FROM Area_tag WHERE Area_tag.name = #{areaName}));
+    </delete>
+
+    <select id="getAreas" parameterType="String" resultType="String">
+         SELECT Area_tag.name FROM user_area
+    JOIN Area_tag ON Area_tag.tag_id = user_area.tag_id WHERE user_area.user_sid IN (
+     SELECT User.sid FROM User WHERE id = #{id}) order by Area_tag.name;
+    </select>
+
+    <select id="getAllAreas" resultType="String">
+        SELECT name FROM Area_tag order by name;
+    </select>
+</mapper>

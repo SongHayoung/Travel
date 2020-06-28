@@ -7,6 +7,7 @@
 
     <typeAliases>
         <typeAlias alias="User" type="com.Travel.biz.User.VO.UserVO" />
+        <typeAlias alias="Area" type="com.Travel.biz.Area.VO.AreaVO" />
     </typeAliases>
 
 </configuration>

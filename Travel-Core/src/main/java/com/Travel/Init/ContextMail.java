@@ -1,17 +1,16 @@
 package com.Travel.Init;
 
-import com.Travel.biz.Mail.Service.MailService;
-import com.Travel.biz.Mail.Service.MailServiceImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 import java.util.Properties;
 
 @Configuration
+@ComponentScan(basePackages = {"com.Travel.biz.Mail.*"})
 public class ContextMail {
     @Value("${mail.username}") String username;
     @Value("${mail.password}") String password;
@@ -53,11 +52,5 @@ public class ContextMail {
         properties.setProperty(MAIL_SOCKETFACTORY_CLASS, "javax.net.ssl.SSLSocketFactory");
         properties.setProperty(MAIL_DEBUG,"true");
         return properties;
-    }
-
-    @Bean
-    public MailService mailService() {
-        MailServiceImpl mailService = new MailServiceImpl();
-        return mailService;
     }
 }

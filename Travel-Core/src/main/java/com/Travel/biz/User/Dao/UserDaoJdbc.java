@@ -17,8 +17,6 @@ public class UserDaoJdbc implements UserDao {
     private static final int DUPLICATE_USER_ID = 1;
     private static final int DUPLICATE_USER_EMAIL = 1;
 
-    public void setSqlSession(SqlSession sqlSession) { this.sqlSession = sqlSession; }
-
     public void addUser(UserVO user) {
         sqlSession.insert("insertUser", user);
     }
