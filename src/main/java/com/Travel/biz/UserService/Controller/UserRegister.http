@@ -1,0 +1,6 @@
+DELETE http://localhost:8080/user
+Content-Type: application/json
+
+{
+  "id": "hello2234"
+}
