@@ -1,16 +1,16 @@
 package com.Travel.biz.UserService.Service.Register;
 
+import com.Travel.Core.Annotations.TODO;
 import com.Travel.Core.MailService.MailService;
 import com.Travel.Core.User.Dao.DuplicateKeyException;
 import com.Travel.Core.User.Dao.UserDao;
 import com.Travel.Core.User.VO.UserVO;
-import com.Travel.biz.UserService.Controller.DuplicateUserIDException;
 import com.Travel.biz.UserService.Dto.UserServiceDto;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+@TODO("유저 추가 에러처리 로직 필ㅇ")
 @Service
 public class UserRegisterServiceImpl implements UserRegisterService{
     @Autowired UserDao userDao;
