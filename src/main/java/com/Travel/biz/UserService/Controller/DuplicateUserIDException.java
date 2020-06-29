@@ -1,4 +1,4 @@
-package com.Travel.biz.UserService.Service.Register;
+package com.Travel.biz.UserService.Controller;
 
 public class DuplicateUserIDException extends RuntimeException {
     public DuplicateUserIDException() { super(); }

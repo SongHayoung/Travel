@@ -1,4 +1,4 @@
-package com.Travel.Core.User.Dao;
+package com.Travel.biz.UserService.Service.Info;
 
 public class NoSuchUserException extends RuntimeException {
     public NoSuchUserException() { super(); }

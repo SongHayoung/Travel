@@ -1,6 +1,7 @@
 package com.Travel.Core.User.Dao;
 
 import com.Travel.Core.User.VO.UserVO;
+import com.Travel.biz.UserService.Controller.DuplicateUserIDException;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -14,17 +15,18 @@ public class UserDaoJdbc implements UserDao {
     @Qualifier("sqlSession")
     private SqlSession sqlSession;
 
-    private static final int DUPLICATE_USER_ID = 1;
-    private static final int DUPLICATE_USER_EMAIL = 1;
+    private static final int DUPLICATE_KEY = 1;
 
     public void addUser(UserVO user) {
+        isEmailExists(user.getEmail());
+        isIdExists(user.getId());
         sqlSession.insert("insertUser", user);
     }
 
-    public UserVO getUser(String id) throws NoSuchUserException {
+    public UserVO getUser(String id) throws NoValueException {
         UserVO targetUser = (UserVO)sqlSession.selectOne("getUserById", id);
         if(targetUser == null)
-            throw new NoSuchUserException();
+            throw new NoValueException(id);
 
         return targetUser;
     }
@@ -39,19 +41,15 @@ public class UserDaoJdbc implements UserDao {
 
     public int getUserCount() { return sqlSession.selectOne("getUserCount"); }
 
-    public boolean isIdExists(String id) {
+    public void isIdExists(String id) throws DuplicateKeyException {
         int exists = sqlSession.selectOne("getIdExists", id);
-        if(exists == DUPLICATE_USER_ID)
-            return false;
-        else
-            return true;
+        if(exists == DUPLICATE_KEY)
+            throw new DuplicateKeyException(id);
     }
 
-    public boolean isEmailExists(String email) {
+    public void isEmailExists(String email) throws DuplicateKeyException {
         int exists = sqlSession.selectOne("getEmailExists", email);
-        if(exists == DUPLICATE_USER_EMAIL)
-            return false;
-        else
-            return true;
+        if(exists == DUPLICATE_KEY)
+            throw new DuplicateUserIDException(email);
     }
 }

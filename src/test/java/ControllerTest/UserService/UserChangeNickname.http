@@ -1,0 +1,7 @@
+PATCH http://localhost:8080/user/nickname
+Content-Type: application/json
+
+{
+  "id": "TravelAdmin",
+  "nickname": "newNickname"
+}
