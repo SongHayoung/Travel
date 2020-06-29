@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -16,7 +17,7 @@ import javax.validation.Valid;
 import java.util.Locale;
 
 @TODO("유저 삭제 실패시 에러처리 필요")
-@RestController
+@Controller
 public class UserServiceController {
     @Autowired UserInfoService userInfoService;
     @Autowired MessageSource messageSource;
@@ -60,6 +61,7 @@ public class UserServiceController {
     }
 
     @DeleteMapping("user")
+    @ResponseBody
     public ResponseEntity<String> deleteUser(@Valid @RequestBody UserServiceDto.Id user, Locale locale) {
         userInfoService.deleteUserByID(user);
 
