@@ -1,4 +1,4 @@
-package com.Travel.biz.UserService.Service.Info;
+package com.Travel.biz.UserService.Controller;
 
 public class PasswordValidationFailureException extends RuntimeException {
     public PasswordValidationFailureException() { super(); }

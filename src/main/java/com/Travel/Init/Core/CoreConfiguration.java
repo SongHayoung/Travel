@@ -8,7 +8,7 @@ import org.springframework.test.context.ContextConfiguration;
 
 @Import({ContextDatabase.class, ContextMail.class, ContextMessage.class})
 @ContextConfiguration(locations = {"/configurations/log4j/log4j-config.xml"})
-@ComponentScan(basePackages = {"com.Travel.Core.User.*", "com.Travel.Core.Area.*"})
+@ComponentScan(basePackages = {"com.Travel.Core.*"})
 public class CoreConfiguration {
     @Bean
     public static PropertySourcesPlaceholderConfigurer properties(){

@@ -1,0 +1,11 @@
+POST http://localhost:8080/register/user
+Content-Type: application/json
+
+{
+  "id": "userid",
+  "email": "useremail@google.com",
+  "pass": "userpassword",
+  "name": "username",
+  "gender": "M",
+  "nickname": "usernickname"
+}
