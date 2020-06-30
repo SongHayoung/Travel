@@ -114,4 +114,9 @@ public class UserRegisterController {
 
         return ResponseEntity.badRequest().body(messageSource.getMessage("userService.duplicatedID",rejectvalue ,locale));
     }
+
+    @GetMapping("/")
+    public String get() {
+        return "token";
+    }
 }

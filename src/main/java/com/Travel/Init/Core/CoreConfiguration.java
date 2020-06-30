@@ -6,7 +6,7 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.ContextConfiguration;
 
-@Import({ContextDatabase.class, ContextMail.class, ContextMessage.class})
+@Import({ContextDatabase.class, ContextMail.class, ContextMessage.class, ContextSecurity.class})
 @ContextConfiguration(locations = {"/configurations/log4j/log4j-config.xml"})
 @ComponentScan(basePackages = {"com.Travel.Core.*"})
 public class CoreConfiguration {
