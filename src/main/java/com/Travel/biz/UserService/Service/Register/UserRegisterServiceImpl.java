@@ -9,9 +9,11 @@ import com.Travel.biz.UserService.Dto.UserServiceDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-@TODO("유저 추가 에러처리 로직 필ㅇ")
+@TODO("유저 추가 에러처리 로직 필요")
 @Service
+@Transactional
 public class UserRegisterServiceImpl implements UserRegisterService{
     @Autowired UserDao userDao;
     @Autowired MailService mailService;
@@ -24,6 +26,7 @@ public class UserRegisterServiceImpl implements UserRegisterService{
         userDao.addUser(user);
     }
 
+    @Transactional(readOnly = true)
     public void isDuplicateEmail(String email) {
         try {
             userDao.isEmailExists(email);
@@ -33,6 +36,7 @@ public class UserRegisterServiceImpl implements UserRegisterService{
         }
     }
 
+    @Transactional(readOnly = true)
     public void isDuplicateId(UserServiceDto.Id user) {
         try {
             userDao.isIdExists(user.getId());
