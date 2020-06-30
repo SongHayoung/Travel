@@ -14,7 +14,7 @@ public class TravelStarter implements WebApplicationInitializer {
     public void onStartup(ServletContext servletContext) throws ServletException {
         AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
         rootContext.register(RootContextConfiguration.class);
-
+        rootContext.register(SpringSecurityInitializer.class);
         rootContext.register(WebContextConfiguration.class);
         servletContext.addListener(new ContextLoaderListener(rootContext));
 
