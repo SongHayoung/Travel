@@ -8,8 +8,10 @@ import org.springframework.stereotype.Service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class UserInfoServiceImpl implements UserInfoService {
     @Autowired UserDao userDao;
     private Logger logger = LoggerFactory.getLogger(UserInfoServiceImpl.class);
@@ -40,6 +42,8 @@ public class UserInfoServiceImpl implements UserInfoService {
         userDao.deleteUser(targetUser);
     }
 
+
+    @Transactional(readOnly = true)
     public boolean loginUser(UserServiceDto.Login loginAccount) throws IncorrectException {
         UserVO targetUser = userDao.getUser(loginAccount.getId());
         if(targetUser.getPass().equals(loginAccount.getPass()) == false)
