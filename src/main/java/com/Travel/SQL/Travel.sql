@@ -14,7 +14,7 @@ CREATE TABLE Area_tag (
   name VARCHAR(20) NOT NULL
 );
 
-Create TABLE user_area(
+CREATE TABLE user_area(
     user_sid INT NOT NULL,
     tag_id INT NOT NULL,
     FOREIGN KEY (user_sid) references USER(sid)
@@ -24,3 +24,11 @@ Create TABLE user_area(
     ON DELETE CASCADE
     ON UPDATE CASCADE 
 );
+
+CREATE TABLE  user_authority(
+    user_sid INT NOT NULL,
+    authority_name VARCHAR(20) NOT NULL,
+    FOREIGN KEY (user_sid) references USER(sid)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+)

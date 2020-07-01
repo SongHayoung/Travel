@@ -1,10 +1,14 @@
 package com.Travel.biz.UserService.Controller;
 
 import com.Travel.Core.Annotations.TODO;
+import com.Travel.Core.Jwt.JwtTokenProvider;
+import com.Travel.Core.User.VO.UserVO;
 import com.Travel.biz.UserService.Dto.UserServiceDto;
 import com.Travel.biz.UserService.Service.Info.IncorrectException;
 import com.Travel.biz.UserService.Service.Info.NotChangedException;
 import com.Travel.biz.UserService.Service.Info.UserInfoService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
@@ -21,17 +25,21 @@ import java.util.Locale;
 public class UserServiceController {
     @Autowired UserInfoService userInfoService;
     @Autowired MessageSource messageSource;
+    @Autowired JwtTokenProvider jwtTokenProvider;
+    private Logger logger = LoggerFactory.getLogger(UserServiceController.class);
 
     @PostMapping("/login")
+    @ResponseBody
     public String postLogin(@Valid @RequestBody UserServiceDto.Login user) {
+        UserVO targetUser;
         try {
-            userInfoService.loginUser(user);
+            targetUser = userInfoService.loginUser(user);
         }
         catch (PasswordValidationFailureException e) {
             throw new PasswordValidationFailureException();
         }
-
-        return "redirect:/main";
+        logger.debug(targetUser.getUsername());
+        return jwtTokenProvider.createToken(targetUser.getUsername(), targetUser.getRoles());
     }
 
     @PatchMapping("user/nickname")

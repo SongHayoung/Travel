@@ -21,15 +21,20 @@ public class UserDaoJdbc implements UserDao {
         isEmailExists(user.getEmail());
         isIdExists(user.getId());
         sqlSession.insert("insertUser", user);
+        sqlSession.insert("insertUserAuth", user);
     }
 
     public UserVO getUser(String id) throws NoValueException {
-        UserVO targetUser = (UserVO)sqlSession.selectOne("getUserById", id);
+        UserVO targetUser = (UserVO)sqlSession.selectOne("getUser", id);
         if(targetUser == null)
             throw new NoValueException(id);
+        targetUser.setRoles(getUserAuth(id));
+
 
         return targetUser;
     }
+
+    private List<String> getUserAuth(String id) { return sqlSession.selectList("getUserAuth", id); }
 
     public void updateUser(UserVO user) {
         sqlSession.update("updateUser", user);

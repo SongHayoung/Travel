@@ -1,7 +1,7 @@
-POST http://localhost:8080/login
+POST https://localhost:8443/login
 Content-Type: application/json
 
 {
-  "id": "TravelAdmin",
-  "pass": "AdminPassword"
+  "id": "userid",
+  "pass": "userpassword"
 }

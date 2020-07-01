@@ -22,6 +22,8 @@ import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Locale;
 
 @TODO("유저 가입 실패 에러 처리 필요 / authGenerator 어디다 둬야할까")
@@ -67,6 +69,7 @@ public class UserRegisterController {
     //등록이 성공하면 로케일 메세지를 담은 플래시 애트리뷰트를 담아 리다이렉트 시킨다
     @PostMapping("/register/user")
     public String addUser(@Valid @RequestBody UserVO user, Locale locale, RedirectAttributes attributes) {
+        user.setRoles(Collections.singletonList("ROLE_USER"));
         userRegisterService.addUser(user);
 
         attributes.addFlashAttribute("message",messageSource.getMessage("userService.addUser", null, locale));
@@ -113,10 +116,5 @@ public class UserRegisterController {
         Object rejectvalue[] = {ex.getMessage()};
 
         return ResponseEntity.badRequest().body(messageSource.getMessage("userService.duplicatedID",rejectvalue ,locale));
-    }
-
-    @GetMapping("/")
-    public String get() {
-        return "token";
     }
 }

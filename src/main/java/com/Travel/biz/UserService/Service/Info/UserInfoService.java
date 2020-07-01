@@ -1,5 +1,6 @@
 package com.Travel.biz.UserService.Service.Info;
 
+import com.Travel.Core.User.VO.UserVO;
 import com.Travel.biz.UserService.Controller.PasswordValueNotChangedException;
 import com.Travel.biz.UserService.Dto.UserServiceDto;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,5 +11,5 @@ public interface UserInfoService {
     boolean updateUserPasswordByID(UserServiceDto.ChangePass user)
             throws IncorrectException, NotChangedException;
     void deleteUserByID(UserServiceDto.Id user);
-    boolean loginUser(UserServiceDto.Login user) throws IncorrectException;
+    UserVO loginUser(UserServiceDto.Login user) throws IncorrectException;
 }
