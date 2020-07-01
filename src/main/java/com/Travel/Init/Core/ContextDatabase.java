@@ -11,9 +11,6 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-
 @Configuration
 @PropertySource("classpath:/properties/dataSource.properties")
 @Import(ContextMyBatis.class)

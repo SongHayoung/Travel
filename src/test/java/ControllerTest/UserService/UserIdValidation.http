@@ -1,12 +1,3 @@
-###
-GET https://localhost:8443/
-Content-Type: application/json
-
-> {%
-    client.global.set("auth_token", response.headers.valuesOf('x-auth-token')[0]);
-  %}
-
-###
 POST https://localhost:8443/register/valid/id
 Content-Type: application/json
 Authorization: Bearer {{auth_token}}

@@ -1,6 +1,7 @@
 package com.Travel.Core.User.Dao;
 
 import com.Travel.Core.User.VO.UserVO;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;

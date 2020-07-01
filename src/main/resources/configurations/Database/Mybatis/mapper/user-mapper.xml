@@ -8,7 +8,22 @@
             values( #{name}, #{id}, #{pass}, #{gender}, #{email}, #{nickname})
     </insert>
 
-    <select id="getUserById" parameterType="String" resultType="User">
+    <insert id="insertUserAuth" parameterType="User">
+         INSERT INTO user_authority (user_sid, authority_name) VALUES (
+        (SELECT sid FROM User Where User.id = #{id}),
+        <foreach collection="roles" item="role"  open="(" close=")" separator="or">
+            #{role}
+        </foreach>
+        );
+    </insert>
+
+    <select id="getUserAuth" parameterType="String" resultType="String">
+        SELECT authority_name FROM user_authority
+        INNER JOIN User ON user_authority.user_sid = User.sid
+        WHERE User.id = #{id}
+    </select>
+
+    <select id="getUser" parameterType="String" resultType="User">
         SELECT * FROM User WHERE id = #{id}
     </select>
 

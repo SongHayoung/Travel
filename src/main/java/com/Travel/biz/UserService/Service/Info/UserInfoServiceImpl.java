@@ -44,11 +44,11 @@ public class UserInfoServiceImpl implements UserInfoService {
 
 
     @Transactional(readOnly = true)
-    public boolean loginUser(UserServiceDto.Login loginAccount) throws IncorrectException {
+    public UserVO loginUser(UserServiceDto.Login loginAccount) throws IncorrectException {
         UserVO targetUser = userDao.getUser(loginAccount.getId());
         if(targetUser.getPass().equals(loginAccount.getPass()) == false)
             throw new IncorrectException();
 
-        return true;
+        return targetUser;
     }
 }
