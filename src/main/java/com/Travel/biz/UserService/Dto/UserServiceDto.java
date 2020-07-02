@@ -16,27 +16,10 @@ public class UserServiceDto {
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class Id {
-        @NotNull
-        @NotBlank
-        @InCorrectID
-        String id;
-    }
-
-    @Data
-    @Builder
-    @NoArgsConstructor
-    @AllArgsConstructor
     public static class Login {
-        @NotNull
-        @NotBlank
-        @InCorrectID
         String id;
 
-        @NotNull
-        @NotBlank
-        @InCorrectPassword
-        String pass;
+        String password;
     }
 
 
@@ -45,37 +28,14 @@ public class UserServiceDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class ChangePass {
-
         @NotNull
         @NotBlank
-        @InCorrectID
-        String id;
+        @InCorrectPassword
+        String currentPassword;
 
         @NotNull
         @NotBlank
         @InCorrectPassword
-        String currentPass;
-
-        @NotNull
-        @NotBlank
-        @InCorrectPassword
-        String newPass;
+        String newPassword;
     }
-
-    @Data
-    @Builder
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class ChangeNickname {
-        @NotNull
-        @NotBlank
-        @InCorrectID
-        String id;
-
-        @NotNull
-        @NotBlank
-        @InCorrectNickName
-        String nickname;
-    }
-
 }

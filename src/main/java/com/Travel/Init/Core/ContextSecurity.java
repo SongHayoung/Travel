@@ -44,7 +44,7 @@ public class ContextSecurity extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/login").permitAll()
+                .antMatchers("/users/login").permitAll()
                 .antMatchers("/register/**").permitAll()
                 .antMatchers("/").permitAll()
                 .anyRequest().hasRole("USER")

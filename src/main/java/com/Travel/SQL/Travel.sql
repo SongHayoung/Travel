@@ -4,7 +4,8 @@ CREATE TABLE USERS(
   id VARCHAR(20) NOT NULL,
   password VARCHAR(40) NOT NULL,
   gender VARCHAR(1) NOT NULL,
-  email VARCHAR(30) NOT NULL
+  email VARCHAR(30) NOT NULL,
+  nickname VARCHAR(15) NOT NULL
 ); 
 
 CREATE INDEX idx_id ON USERS (id);

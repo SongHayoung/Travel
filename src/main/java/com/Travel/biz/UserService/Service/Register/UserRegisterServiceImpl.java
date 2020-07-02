@@ -37,9 +37,9 @@ public class UserRegisterServiceImpl implements UserRegisterService{
     }
 
     @Transactional(readOnly = true)
-    public void isDuplicateId(UserServiceDto.Id user) {
+    public void isDuplicateId(String userId) {
         try {
-            userDao.isIdExists(user.getId());
+            userDao.isIdExists(userId);
         }
         catch (DuplicateKeyException e) {
             throw new DuplicateUserInfoException(e);

@@ -1,7 +1,6 @@
-PATCH http://localhost:8080/user/nickname
+PATCH http://localhost:8080/users/userid/nickname/newNickname
 Content-Type: application/json
+X-AUTH-TOKEN: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyaWQiLCJyb2xlcyI6WyJST0xFX1VTRVIiXSwiaWF0IjoxNTkzNzA1MDY0LCJleHAiOjE1OTM3MDY4NjR9.hTgrArEpaNxZTglVeIFoCM9cIUumTR36lAaQSNWnYdU
 
 {
-  "id": "TravelAdmin",
-  "nickname": "newNickname"
 }
