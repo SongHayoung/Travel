@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="FeedAreas">
+    <insert id="addFeedAreas" parameterType="java.util.List">
+        INSERT INTO FEED_AREA (feedSid, tagId) VALUES
+        <foreach collection="list" item="feedArea"  separator=" , ">
+            (#{feedArea.feedSid}, (SELECT AREAS.tagId FROM AREAS WHERE AREAS.name = #{feedArea.tagIds}))
+        </foreach>
+    </insert>
+
+    <update id="updateFeedAreas" parameterType="FeedAreas">
+
+    </update>
+
+    <delete id="deleteFeedAreas" parameterType="FeedAreas">
+        DELETE FROM FEED_AREA WHERE
+            (feedSid = #{feedSid} AND tagId = (SELECT AREAS.tagId FROM AREAS WHERE AREAS.name = #{tagIds}));
+
+    </delete>
+
+    <select id="getFeedAreas" parameterType="int" resultType="FeedAreas">
+        SELECT AREAS.name, feedSid FROM AREAS
+        INNER JOIN FEED_AREA  ON AREAS.tagId = FEED_AREA.tagId
+        WHERE FEED_AREA.feedSid = #{feedSid};
+    </select>
+</mapper>

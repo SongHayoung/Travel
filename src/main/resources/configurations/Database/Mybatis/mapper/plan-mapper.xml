@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Plan">
+    <insert id="insertPlan" parameterType="Plan" useGeneratedKeys="true" keyProperty="planSid">
+        INSERT INTO PLANS (feedSid, date) VALUE (#{feedSid}, #{date});
+    </insert>
+
+    <update id="updatePlan" parameterType="Plan">
+        UPDATE PLANS SET date = #{date} WHERE planSid = #{planSid};
+    </update>
+
+    <delete id="deletePlan" parameterType="int">
+        DELETE FROM PLANS WHERE planSd = #{planSid};
+    </delete>
+
+    <select id="getPlans" parameterType="int" resultType="Plan">
+        SELECT * FROM PLANS WHERE feedSid = #{feedSid};
+    </select>
+</mapper>

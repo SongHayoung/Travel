@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="DailyPlan">
+    <insert id="insertDailyPlan" parameterType="DailyPlan">
+        INSERT INTO DAILYPLANS (planSid, time, plan) VALUES (#{planSid}, #{time}, #{plan});
+    </insert>
+
+    <update id="updateDailyPlan" parameterType="DailyPlan">
+        UPDATE DAILYPLANS SET time = #{time}, plan = #{plan} WHERE dailyPlanSid = #{dailyPlanSid};
+    </update>
+
+    <delete id="deleteDailyPlan" parameterType="int">
+        DELETE FROM DAILYPLANS WHERE dailyPlanSid = #{dailyPlanSid};
+    </delete>
+
+    <select id="getDailyPlans" parameterType="int" resultType="DailyPlan">
+        SELECT * FROM DAILYPLANS WHERE planSid = #{planSid};
+    </select>
+</mapper>

@@ -23,7 +23,12 @@ public class ContextMyBatis {
         sqlSessionFactoryBean.setConfigLocation(new ClassPathResource(CLASS_PATH + "config/mybatis-config.xml"));
         sqlSessionFactoryBean.setMapperLocations(new ClassPathResource[]{
                 new ClassPathResource(CLASS_PATH + "mapper/user-mapper.xml"),
-                new ClassPathResource(CLASS_PATH + "mapper/area-mapper.xml")});
+                new ClassPathResource(CLASS_PATH + "mapper/area-mapper.xml"),
+                new ClassPathResource(CLASS_PATH + "mapper/feed-mapper.xml"),
+                new ClassPathResource(CLASS_PATH + "mapper/plan-mapper.xml"),
+                new ClassPathResource(CLASS_PATH + "mapper/dailyPlan-mapper.xml"),
+                new ClassPathResource(CLASS_PATH + "mapper/feedAreas-mapper.xml"),
+        });
 
         return sqlSessionFactoryBean.getObject();
     }

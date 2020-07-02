@@ -4,13 +4,13 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="User">
     <insert id="insertUser" parameterType="User">
-        INSERT INTO User (name, id, pass, gender, email, nickname)
+        INSERT INTO USERS (name, id, pass, gender, email, nickname)
             values( #{name}, #{id}, #{pass}, #{gender}, #{email}, #{nickname})
     </insert>
 
     <insert id="insertUserAuth" parameterType="User">
-         INSERT INTO user_authority (user_sid, authority_name) VALUES (
-        (SELECT sid FROM User Where User.id = #{id}),
+         INSERT INTO USER_AUTHORITY (userSid, authorityName) VALUES (
+        (SELECT userSid FROM USERS Where USERS.id = #{id}),
         <foreach collection="roles" item="role"  open="(" close=")" separator="or">
             #{role}
         </foreach>
@@ -18,36 +18,36 @@
     </insert>
 
     <select id="getUserAuth" parameterType="String" resultType="String">
-        SELECT authority_name FROM user_authority
-        INNER JOIN User ON user_authority.user_sid = User.sid
-        WHERE User.id = #{id}
+        SELECT authorityName FROM USER_AUTHORITY
+        INNER JOIN USERS ON USER_AUTHORITY.userSid = USERS.userSid
+        WHERE USERS.id = #{id}
     </select>
 
     <select id="getUser" parameterType="String" resultType="User">
-        SELECT * FROM User WHERE id = #{id}
+        SELECT * FROM USERS WHERE id = #{id}
     </select>
 
     <update id="updateUser" parameterType="User">
-        UPDATE User SET email = #{email}, nickname = #{nickname}, pass = #{pass} WHERE id = #{id}
+        UPDATE USERS SET email = #{email}, nickname = #{nickname}, pass = #{pass} WHERE id = #{id}
     </update>
 
     <delete id="deleteUser" parameterType="User">
-        DELETE FROM User WHERE id = #{id}
+        DELETE FROM USERS WHERE id = #{id}
     </delete>
 
     <select id="getUserFriends" parameterType="String" resultType="User">
-        SELECT * FROM User order by id
+        SELECT * FROM USERS order by id
     </select>
 
     <select id="getUserCount" resultType="int">
-        SELECT COUNT(*) FROM User
+        SELECT COUNT(*) FROM USERS
     </select>
 
     <select id="getIdExists" parameterType="String" resultType="int">
-        SELECT EXISTS (SELECT * FROM User where id = #{id}) as success
+        SELECT EXISTS (SELECT * FROM USERS where id = #{id}) as success
     </select>
 
     <select id="getEmailExists" parameterType="String" resultType="int">
-        SELECT EXISTS (SELECT * FROM User where email = #{email}) as success
+        SELECT EXISTS (SELECT * FROM USERS where email = #{email}) as success
     </select>
 </mapper>
