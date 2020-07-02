@@ -3,6 +3,7 @@ package com.Travel.biz.UserService.Controller;
 import com.Travel.Core.Annotations.TODO;
 import com.Travel.Core.Jwt.JwtTokenProvider;
 import com.Travel.Core.User.VO.UserVO;
+import com.Travel.Validation.InCorrectNickName;
 import com.Travel.biz.UserService.Dto.UserServiceDto;
 import com.Travel.biz.UserService.Service.Info.IncorrectException;
 import com.Travel.biz.UserService.Service.Info.NotChangedException;
@@ -22,6 +23,7 @@ import java.util.Locale;
 
 @TODO("유저 삭제 실패시 에러처리 필요")
 @Controller
+@RequestMapping("/users")
 public class UserServiceController {
     @Autowired UserInfoService userInfoService;
     @Autowired MessageSource messageSource;
@@ -42,19 +44,20 @@ public class UserServiceController {
         return jwtTokenProvider.createToken(targetUser.getUsername(), targetUser.getRoles());
     }
 
-    @PatchMapping("user/nickname")
-    public String updateUserNickname(@Valid @RequestBody UserServiceDto.ChangeNickname user, Locale locale, RedirectAttributes attr) {
-        userInfoService.updateUserNickNameByID(user);
+    @PatchMapping("/{userId}/nickname/{nickname}")
+    public String updateUserNickname(@PathVariable("userId") String userId, @PathVariable("nickname") @Valid @InCorrectNickName String nickname, Locale locale, RedirectAttributes attr) {
+        System.out.println(userId + nickname);
+        userInfoService.updateUserNickNameByID(userId, nickname);
 
         attr.addFlashAttribute(messageSource.getMessage("userService.nicknameChanged", null,locale));
 
-        return "redirect:/user/info";
+        return "redirect:/users/" + userId;
     }
 
-    @PatchMapping("user/password")
-    public String updateUserPassword(@Valid @RequestBody UserServiceDto.ChangePass user, Locale locale, RedirectAttributes attr) {
+    @PatchMapping("/{userId}/password")
+    public String updateUserPassword(@PathVariable("userId") String userId, @Valid @RequestBody UserServiceDto.ChangePass user, Locale locale, RedirectAttributes attr) {
         try {
-            userInfoService.updateUserPasswordByID(user);
+            userInfoService.updateUserPasswordByID(userId, user);
         }
         catch (IncorrectException e) {
             throw new PasswordValidationFailureException();
@@ -65,13 +68,13 @@ public class UserServiceController {
 
         attr.addFlashAttribute("message",messageSource.getMessage("userService.passwordChanged", null,locale));
 
-        return "redirect:/user/info";
+        return "redirect:/users/" + userId;
     }
 
-    @DeleteMapping("user")
+    @DeleteMapping("/{userId}")
     @ResponseBody
-    public ResponseEntity<String> deleteUser(@Valid @RequestBody UserServiceDto.Id user, Locale locale) {
-        userInfoService.deleteUserByID(user);
+    public ResponseEntity<String> deleteUser(@PathVariable("userId") @Valid @RequestBody String userId, Locale locale) {
+        userInfoService.deleteUserByID(userId);
 
         return ResponseEntity.ok(messageSource.getMessage("userService.deleteUser", null, locale));
     }

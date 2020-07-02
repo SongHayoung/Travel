@@ -1,8 +1,7 @@
-POST https://localhost:8443/register/valid/id
+POST https://localhost:8443/register/valid/id/userId
 Content-Type: application/json
 Authorization: Bearer {{auth_token}}
 
 {
-  "id": "TravelAdmin"
 }
 

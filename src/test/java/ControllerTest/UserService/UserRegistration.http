@@ -4,7 +4,7 @@ Content-Type: application/json
 {
   "id": "userid",
   "email": "useremail@google.com",
-  "pass": "userpassword",
+  "password": "userpassword",
   "name": "김이박",
   "gender": "M",
   "nickname": "usernickname"

@@ -30,12 +30,12 @@ public class GlobalExceptionAdvice {
         return ResponseEntity.badRequest().body(messageSource.getMessage(ex.getBindingResult().getFieldError().getDefaultMessage(),rejectvalue ,locale));
     }
 
-    @ExceptionHandler(Exception.class)
+    /**@ExceptionHandler(Exception.class)
     @ResponseBody
     public ResponseEntity<String> noSuchUserError(Exception ex, Locale locale) {
 
         return ResponseEntity.badRequest().body(messageSource.getMessage("userService.unDefinedError", null, locale));
-    }
+    }**/
 
     /**
      ** 사용자 정의 Exception

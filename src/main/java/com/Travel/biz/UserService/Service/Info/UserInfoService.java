@@ -7,9 +7,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 public interface UserInfoService {
-    boolean updateUserNickNameByID(UserServiceDto.ChangeNickname user);
-    boolean updateUserPasswordByID(UserServiceDto.ChangePass user)
+    boolean updateUserNickNameByID(String userId, String nickName);
+    boolean updateUserPasswordByID(String userId, UserServiceDto.ChangePass user)
             throws IncorrectException, NotChangedException;
-    void deleteUserByID(UserServiceDto.Id user);
+    void deleteUserByID(String userId);
     UserVO loginUser(UserServiceDto.Login user) throws IncorrectException;
 }

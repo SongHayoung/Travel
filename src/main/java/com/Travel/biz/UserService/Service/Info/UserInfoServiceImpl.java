@@ -15,30 +15,30 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserInfoServiceImpl implements UserInfoService {
     @Autowired UserDao userDao;
     private Logger logger = LoggerFactory.getLogger(UserInfoServiceImpl.class);
-    public boolean updateUserNickNameByID(UserServiceDto.ChangeNickname userNewNickname) {
-        UserVO targetUser = userDao.getUser(userNewNickname.getId());
-        targetUser.setNickname(userNewNickname.getNickname());
+    public boolean updateUserNickNameByID(String userId, String nickName) {
+        UserVO targetUser = userDao.getUser(userId);
+        targetUser.setNickname(nickName);
         userDao.updateUser(targetUser);
         return true;
     }
 
-    public boolean updateUserPasswordByID(UserServiceDto.ChangePass userNewPassword)
+    public boolean updateUserPasswordByID(String userId, UserServiceDto.ChangePass userNewPassword)
             throws IncorrectException, NotChangedException {
-        UserVO targetUser = userDao.getUser(userNewPassword.getId());
+        UserVO targetUser = userDao.getUser(userId);
         //현재 비밀번호가 옳지 않을 때
-        if(targetUser.getPassword().equals(userNewPassword.getCurrentPass()) == false)
+        if(targetUser.getPassword().equals(userNewPassword.getCurrentPassword()) == false)
             throw  new IncorrectException();
         //현재 비밀번호가 새로운 비밀번호랑와 일치할 때
-        if(userNewPassword.getCurrentPass().equals(userNewPassword.getNewPass()) == true)
+        if(userNewPassword.getCurrentPassword().equals(userNewPassword.getNewPassword()) == true)
             throw new NotChangedException();
-        targetUser.setPassword(userNewPassword.getNewPass());
+        targetUser.setPassword(userNewPassword.getNewPassword());
         userDao.updateUser(targetUser);
 
         return true;
     }
 
-    public void deleteUserByID(UserServiceDto.Id user) {
-        UserVO targetUser = userDao.getUser(user.getId());
+    public void deleteUserByID(String userId) {
+        UserVO targetUser = userDao.getUser(userId);
         userDao.deleteUser(targetUser);
     }
 
@@ -46,7 +46,7 @@ public class UserInfoServiceImpl implements UserInfoService {
     @Transactional(readOnly = true)
     public UserVO loginUser(UserServiceDto.Login loginAccount) throws IncorrectException {
         UserVO targetUser = userDao.getUser(loginAccount.getId());
-        if(targetUser.getPassword().equals(loginAccount.getPass()) == false)
+        if(targetUser.getPassword().equals(loginAccount.getPassword()) == false)
             throw new IncorrectException();
 
         return targetUser;

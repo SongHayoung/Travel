@@ -1,6 +1,7 @@
 package com.Travel.biz.UserService.Controller;
 
 import com.Travel.Core.Annotations.TODO;
+import com.Travel.Validation.InCorrectID;
 import com.Travel.biz.UserService.Dto.UserServiceDto;
 import com.Travel.biz.UserService.Service.Register.DuplicateUserInfoException;
 import com.Travel.biz.UserService.Service.Register.UserRegisterService;
@@ -22,7 +23,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Locale;
 
@@ -34,7 +34,7 @@ public class UserRegisterController {
     @Autowired LocaleResolver localeResolver;
     private Logger logger = LoggerFactory.getLogger(UserRegisterController.class);
 
-    @PostMapping("/register/valid/email")
+    @PostMapping("/valid/email")
     public ResponseEntity<RegisterMailDto> validateEmail(@Valid @RequestBody RegisterMailDto mail, Locale locale) {
         try {
             userRegisterService.isDuplicateEmail(mail.getEmail());
@@ -54,15 +54,15 @@ public class UserRegisterController {
                 build());
     }
 
-    @PostMapping("/register/valid/id")
-    public ResponseEntity<String> validateID(@Valid @RequestBody UserServiceDto.Id user, Locale locale) {
+    @PostMapping("/register/valid/id/{userId}")
+    public ResponseEntity<String> validateID(@PathVariable("userId") @Valid @RequestBody @InCorrectID String userId, Locale locale) {
         try {
-            userRegisterService.isDuplicateId(user);
+            userRegisterService.isDuplicateId(userId);
         }
         catch (DuplicateUserInfoException e) {
-            throw new DuplicateUserIDException(user.getId());
+            throw new DuplicateUserIDException(userId);
         }
-        Object params[] = {user.getId()};
+        Object params[] = {userId};
         return ResponseEntity.ok(messageSource.getMessage("userService.availableID", params,locale));
     }
 
@@ -74,7 +74,7 @@ public class UserRegisterController {
 
         attributes.addFlashAttribute("message",messageSource.getMessage("userService.addUser", null, locale));
 
-        return "redirect:/login";
+        return "redirect:/users/login";
     }
 
     private String authNumGenerator() {

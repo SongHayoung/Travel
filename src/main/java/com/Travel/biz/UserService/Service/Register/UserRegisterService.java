@@ -6,6 +6,6 @@ import com.Travel.biz.UserService.Dto.UserServiceDto;
 public interface UserRegisterService {
     void addUser(UserVO user);
     void isDuplicateEmail(String email);
-    void isDuplicateId(UserServiceDto.Id user);
+    void isDuplicateId(String userId);
     void sendRegisterMail(String email, String authNum);
 }
