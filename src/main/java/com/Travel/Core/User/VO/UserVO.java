@@ -33,7 +33,7 @@ public class UserVO implements UserDetails {
 
     @NotNull
     @InCorrectPassword
-    String pass;
+    String password;
 
     @NotNull
     @InCorrectName
@@ -58,7 +58,7 @@ public class UserVO implements UserDetails {
 
     @Override
     public String getPassword() {
-        return pass;
+        return password;
     }
 
     @Override

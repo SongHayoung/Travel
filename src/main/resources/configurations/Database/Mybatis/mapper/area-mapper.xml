@@ -5,25 +5,25 @@
 
 <mapper namespace="Area">
     <insert id="insertArea" parameterType="Area">
-        INSERT INTO user_area (user_sid, tag_id) VALUES (
-        (SELECT sid FROM User Where User.id = #{id}),
-        (SELECT tag_id FROM Area_tag WHERE Area_tag.name = #{areaName}));
+        INSERT INTO USER_AREA (userSid, tagId) VALUES (
+        (SELECT userSid FROM USERS Where USERS.id = #{id}),
+        (SELECT tagId FROM AREAS WHERE AREAS.name = #{areaName}));
     </insert>
 
     <delete id="deleteArea" parameterType="Area">
-        DELETE FROM user_area WHERE (
-        user_sid = (SELECT sid FROM User Where User.id = #{id}) AND
-        tag_id = (SELECT tag_id FROM Area_tag WHERE Area_tag.name = #{areaName}));
+        DELETE FROM USER_AREA WHERE (
+        userSid = (SELECT userSid FROM User Where User.id = #{id}) AND
+        tagId = (SELECT tagId FROM AREAS WHERE AREAS.name = #{areaName}));
     </delete>
 
     <select id="getAreas" parameterType="String" resultType="String">
-         SELECT a.name FROM Area_tag a
-    INNER JOIN user_area ua ON a.tag_id = ua.tag_id
-    INNER JOIN USER  u ON ua.user_sid = u.sid
-    WHERE u.id = #{id};
+         SELECT AREAS.name FROM AREAS
+    INNER JOIN USER_AREA  ON AREAS.tagId = USER_AREA.tagId
+    INNER JOIN USERS ON USER_AREA.userSid = USERS.userSid
+    WHERE USERS.id = #{id};
     </select>
 
     <select id="getAllAreas" resultType="String">
-        SELECT name FROM Area_tag ORDER BY name;
+        SELECT name FROM AREAS ORDER BY name;
     </select>
 </mapper>

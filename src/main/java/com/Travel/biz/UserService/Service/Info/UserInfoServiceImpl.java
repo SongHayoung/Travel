@@ -26,12 +26,12 @@ public class UserInfoServiceImpl implements UserInfoService {
             throws IncorrectException, NotChangedException {
         UserVO targetUser = userDao.getUser(userNewPassword.getId());
         //현재 비밀번호가 옳지 않을 때
-        if(targetUser.getPass().equals(userNewPassword.getCurrentPass()) == false)
+        if(targetUser.getPassword().equals(userNewPassword.getCurrentPass()) == false)
             throw  new IncorrectException();
         //현재 비밀번호가 새로운 비밀번호랑와 일치할 때
         if(userNewPassword.getCurrentPass().equals(userNewPassword.getNewPass()) == true)
             throw new NotChangedException();
-        targetUser.setPass(userNewPassword.getNewPass());
+        targetUser.setPassword(userNewPassword.getNewPass());
         userDao.updateUser(targetUser);
 
         return true;
@@ -46,7 +46,7 @@ public class UserInfoServiceImpl implements UserInfoService {
     @Transactional(readOnly = true)
     public UserVO loginUser(UserServiceDto.Login loginAccount) throws IncorrectException {
         UserVO targetUser = userDao.getUser(loginAccount.getId());
-        if(targetUser.getPass().equals(loginAccount.getPass()) == false)
+        if(targetUser.getPassword().equals(loginAccount.getPass()) == false)
             throw new IncorrectException();
 
         return targetUser;

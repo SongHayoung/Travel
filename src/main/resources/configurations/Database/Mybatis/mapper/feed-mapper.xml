@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Feed">
+    <insert id="insertFeed" parameterType="Feed" useGeneratedKeys="true" keyProperty="feedSid">
+        INSERT INTO FEEDS (userSid, likes, contents) VALUES (
+        (SELECT userSid FROM USERS WHERE USERS.id = #{userId}), #{likes}, #{contents});
+    </insert>
+
+    <delete id="deleteFeed" parameterType="int">
+        DELETE FROM FEEDS WHERE feedSid = #{feedSid};
+    </delete>
+
+    <update id="updateFeed" parameterType="Feed">
+         UPDATE FEEDS SET contents = #{contents} WHERE feedSid = #{feedSid};
+    </update>
+
+    <select id="getFeed" parameterType="int" resultType="Feed">
+        SELECT * FROM FEEDS where feedSid = #{feedSid};
+    </select>
+
+    <select id="getFeedsByUserID" parameterType="String" resultType="Feed">
+        SELECT * FROM FEEDS WHERE userSid = (SELECT userSid FROM USERS WHERE USERS.id = #{userId});
+    </select>
+</mapper>
