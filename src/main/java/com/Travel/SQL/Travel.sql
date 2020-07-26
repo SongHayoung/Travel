@@ -5,7 +5,9 @@ CREATE TABLE USERS(
   password VARCHAR(40) NOT NULL,
   gender VARCHAR(1) NOT NULL,
   email VARCHAR(30) NOT NULL,
-  nickname VARCHAR(15) NOT NULL
+  nickname VARCHAR(15) NOT NULL,
+  followers INT NOT NULL DEFAULT 0,
+  followings INT NOT NULL DEFAULT 0
 ); 
 
 CREATE INDEX idx_id ON USERS (id);
@@ -90,3 +92,17 @@ CREATE TABLE FEED_AREA(
 
 CREATE INDEX idx_feedforarea ON FEED_AREA (tagId);
 CREATE INDEX idx_areaforfeed ON FEED_AREA (feedSid);
+
+CREATE TABLE USER_FOLLOW(
+    follower INT NOT NULL,
+    following INT NOT NULL,
+    FOREIGN KEY (follower) references USERS (userSid)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+    FOREIGN KEY (following) references USERS (userSid)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+)
+
+CREATE INDEX idx_follower ON USER_FOLLOW (follower);
+CREATE INDEX idx_following ON USER_FOLLOW (following);

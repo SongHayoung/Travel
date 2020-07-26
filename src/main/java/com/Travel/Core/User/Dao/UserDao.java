@@ -1,5 +1,6 @@
 package com.Travel.Core.User.Dao;
 
+import com.Travel.Core.User.VO.FollowVO;
 import com.Travel.Core.User.VO.UserVO;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,5 +15,5 @@ public interface UserDao {
     int getUserCount();
     void isIdExists(String id) throws DuplicateKeyException;
     void isEmailExists(String email) throws DuplicateKeyException;
-    List<UserVO> getUserFriend(String id);
+    List<UserVO> getUserFollowings(List<Integer> follows);
 }

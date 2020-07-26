@@ -23,6 +23,8 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserVO implements UserDetails {
+    int userSid;
+
     @NotNull
     @InCorrectID
     String id;

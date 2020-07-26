@@ -16,7 +16,7 @@ import java.util.List;
 
 
 @Configuration
-@ComponentScan(basePackages = {"com.Travel.biz.UserService.*"})
+@ComponentScan(basePackages = {"com.Travel.biz.MyPage.*"})
 @EnableWebMvc
 public class WebContextConfiguration implements WebMvcConfigurer {
     /**

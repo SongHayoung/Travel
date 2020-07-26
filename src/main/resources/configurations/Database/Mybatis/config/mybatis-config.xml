@@ -7,11 +7,12 @@
 
     <typeAliases>
         <typeAlias alias="User" type="com.Travel.Core.User.VO.UserVO" />
+        <typeAlias alias="Follow" type="com.Travel.Core.User.VO.FollowVO" />
         <typeAlias alias="Area" type="com.Travel.Core.Area.VO.AreaVO" />
-        <typeAlias alias="Feed" type="com.Travel.biz.FeedService.VO.Feed" />
-        <typeAlias alias="Plan" type="com.Travel.biz.FeedService.VO.Plan" />
-        <typeAlias alias="DailyPlan" type="com.Travel.biz.FeedService.VO.DailyPlan" />
-        <typeAlias alias="FeedAreas" type="com.Travel.biz.FeedService.VO.FeedAreas" />
+        <typeAlias alias="Feed" type="com.Travel.biz.Feed.VO.Feed" />
+        <typeAlias alias="Plan" type="com.Travel.biz.Feed.VO.Plan" />
+        <typeAlias alias="DailyPlan" type="com.Travel.biz.Feed.VO.DailyPlan" />
+        <typeAlias alias="FeedAreas" type="com.Travel.biz.Feed.VO.FeedAreas" />
     </typeAliases>
 
 </configuration>
