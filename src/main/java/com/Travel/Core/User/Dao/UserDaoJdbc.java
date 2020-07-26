@@ -1,7 +1,8 @@
 package com.Travel.Core.User.Dao;
 
+import com.Travel.Core.User.VO.FollowVO;
 import com.Travel.Core.User.VO.UserVO;
-import com.Travel.biz.UserService.Controller.DuplicateUserIDException;
+import com.Travel.biz.MyPage.Controller.DuplicateUserIDException;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -25,8 +26,8 @@ public class UserDaoJdbc implements UserDao {
     }
 
     public UserVO getUser(String id) throws NoValueException {
-        UserVO targetUser = (UserVO)sqlSession.selectOne("getUser", id);
-        if(targetUser == null)
+        UserVO targetUser = (UserVO) sqlSession.selectOne("getUser", id);
+        if (targetUser == null)
             throw new NoValueException(id);
         targetUser.setRoles(getUserAuth(id));
 
@@ -34,27 +35,37 @@ public class UserDaoJdbc implements UserDao {
         return targetUser;
     }
 
-    private List<String> getUserAuth(String id) { return sqlSession.selectList("getUserAuth", id); }
+    private List<String> getUserAuth(String id) {
+        return sqlSession.selectList("getUserAuth", id);
+    }
 
     public void updateUser(UserVO user) {
         sqlSession.update("updateUser", user);
     }
 
-    public void deleteUser(UserVO user) { sqlSession.delete("deleteUser", user); }
+    public void deleteUser(UserVO user) {
+        sqlSession.delete("deleteUser", user);
+    }
 
-    public List<UserVO> getUserFriend(String id) { return sqlSession.selectList("getUserFriends", id); }
+    public List<UserVO> getUserFollowings(List<Integer> follows) {
+        for(Integer following : follows)
+            System.out.println("Following : " + following);
+        return sqlSession.selectList("getUserFollowings", follows);
+    }
 
-    public int getUserCount() { return sqlSession.selectOne("getUserCount"); }
+    public int getUserCount() {
+        return sqlSession.selectOne("getUserCount");
+    }
 
     public void isIdExists(String id) throws DuplicateKeyException {
         int exists = sqlSession.selectOne("getIdExists", id);
-        if(exists == DUPLICATE_KEY)
+        if (exists == DUPLICATE_KEY)
             throw new DuplicateKeyException(id);
     }
 
     public void isEmailExists(String email) throws DuplicateKeyException {
         int exists = sqlSession.selectOne("getEmailExists", email);
-        if(exists == DUPLICATE_KEY)
+        if (exists == DUPLICATE_KEY)
             throw new DuplicateUserIDException(email);
     }
 }

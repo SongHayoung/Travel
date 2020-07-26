@@ -28,6 +28,7 @@ public class ContextMyBatis {
                 new ClassPathResource(CLASS_PATH + "mapper/plan-mapper.xml"),
                 new ClassPathResource(CLASS_PATH + "mapper/dailyPlan-mapper.xml"),
                 new ClassPathResource(CLASS_PATH + "mapper/feedAreas-mapper.xml"),
+                new ClassPathResource(CLASS_PATH + "mapper/follow-mapper.xml"),
         });
 
         return sqlSessionFactoryBean.getObject();

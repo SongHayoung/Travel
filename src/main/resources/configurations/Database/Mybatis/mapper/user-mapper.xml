@@ -31,12 +31,31 @@
         UPDATE USERS SET email = #{email}, nickname = #{nickname}, password = #{password} WHERE id = #{id}
     </update>
 
+    <update id="addFollower" parameterType="String">
+        UPDATE USERS SET followers = followers + 1 WHERE id = #{id}
+    </update>
+
+    <update id="addFollowing" parameterType="String">
+        UPDATE USERS SET followers = followingss + 1 WHERE id = #{id}
+    </update>
+
+    <update id="deleteFollower" parameterType="String">
+        UPDATE USERS SET followers = followers - 1 WHERE id = #{id}
+    </update>
+
+    <update id="deleteFollowing" parameterType="String">
+        UPDATE USERS SET followers = followingss - 1 WHERE id = #{id}
+    </update>
+
     <delete id="deleteUser" parameterType="User">
         DELETE FROM USERS WHERE id = #{id}
     </delete>
 
-    <select id="getUserFriends" parameterType="String" resultType="User">
-        SELECT * FROM USERS order by id
+    <select id="getUserFollowings" parameterType="java.util.List" resultType="User">
+        SELECT * FROM USERS WHERE
+        <foreach collection="list" item="item" separator="OR">
+            userSid = #{item}
+        </foreach>
     </select>
 
     <select id="getUserCount" resultType="int">
@@ -49,5 +68,9 @@
 
     <select id="getEmailExists" parameterType="String" resultType="int">
         SELECT EXISTS (SELECT * FROM USERS where email = #{email}) as success
+    </select>
+
+    <select id="getFollowingUsers" parameterType="int" resultType="User">
+        SELECT * FROM USERS WHERE userSid = #{userSid}
     </select>
 </mapper>
