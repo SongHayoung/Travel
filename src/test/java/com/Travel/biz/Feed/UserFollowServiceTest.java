@@ -17,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -58,6 +57,14 @@ public class UserFollowServiceTest {
         List<UserVO> followings1 = userCoreService.getFollowings("user1");
         assertThat(followings1.get(0).getId(), is(users.get(1).getId()));
         assertThat(followings1.get(1).getId(), is(users.get(2).getId()));
+
+        UserVO followerUser = userCoreService.getUserByID("user1");
+        assertThat(followerUser.getFollowings(), is(2));
+        assertThat(followerUser.getFollowers(), is(0));
+
+        UserVO followingUser = userCoreService.getUserByID("user2");
+        assertThat(followingUser.getFollowings(), is(0));
+        assertThat(followingUser.getFollowers(), is(1));
 
         userCoreService.unFollow("user1", "user3");
 

@@ -1,0 +1,6 @@
+GET https://localhost:8443/swagger-ui.html
+Content-Type: application/json
+X-AUTH-TOKEN: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyaWQiLCJyb2xlcyI6WyJST0xFX1VTRVIiXSwiaWF0IjoxNTk1OTA5NDY3LCJleHAiOjE1OTU5MTEyNjd9.AKxwiJLxXH6GnwSgwIL4hJM_LXZo9yc5ZGjsZ3yVkwk
+
+{
+}

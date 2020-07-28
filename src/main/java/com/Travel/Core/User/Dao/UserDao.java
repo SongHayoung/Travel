@@ -16,4 +16,8 @@ public interface UserDao {
     void isIdExists(String id) throws DuplicateKeyException;
     void isEmailExists(String email) throws DuplicateKeyException;
     List<UserVO> getUserFollowings(List<Integer> follows);
+    void addFollowing(Integer userSid);
+    void deleteFollowing(Integer userSid);
+    void addFollower(Integer userSid);
+    void deleteFollower(Integer userSid);
 }

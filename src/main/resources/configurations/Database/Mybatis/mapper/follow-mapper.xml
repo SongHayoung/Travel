@@ -15,4 +15,8 @@
     <select id="getFollowings" parameterType="int" resultType="int">
         SELECT following FROM USER_FOLLOW WHERE follower = #{userSid}
     </select>
+
+    <select id="getFollowers" parameterType="int" resultType="int">
+        SELECT follower FROM USER_FOLLOW WHERE following = #{userSid}
+    </select>
 </mapper>

@@ -1,5 +1,6 @@
 package com.Travel.biz.MyPage.Service.Info;
 
+import com.Travel.Core.User.Dao.FollowDao;
 import com.Travel.Core.User.Dao.UserDao;
 import com.Travel.Core.User.VO.UserVO;
 import com.Travel.biz.MyPage.Dto.UserServiceDto;
@@ -10,10 +11,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 public class UserInfoServiceImpl implements UserInfoService {
     @Autowired UserDao userDao;
+    @Autowired FollowDao followDao;
     private Logger logger = LoggerFactory.getLogger(UserInfoServiceImpl.class);
     public boolean updateUserNickNameByID(String userId, String nickName) {
         UserVO targetUser = userDao.getUser(userId);
@@ -40,6 +44,12 @@ public class UserInfoServiceImpl implements UserInfoService {
     public void deleteUserByID(String userId) {
         UserVO targetUser = userDao.getUser(userId);
         userDao.deleteUser(targetUser);
+        List<Integer> followings = followDao.getFollowings(targetUser.getUserSid());
+        List<Integer> followers = followDao.getFollowers(targetUser.getUserSid());
+        for(Integer following : followings)
+            userDao.deleteFollowing(following);
+        for(Integer follower : followers)
+            userDao.deleteFollower(follower);
     }
 
 

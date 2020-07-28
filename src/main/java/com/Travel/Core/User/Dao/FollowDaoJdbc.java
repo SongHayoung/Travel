@@ -23,5 +23,10 @@ public class FollowDaoJdbc implements FollowDao{
     }
 
     public List<Integer> getFollowings(int userSid) {
-        return sqlSession.selectList("getFollowings", userSid); }
+        return sqlSession.selectList("getFollowings", userSid);
+    }
+
+    public List<Integer> getFollowers(int userSid) {
+        return sqlSession.selectList("getFollowers", userSid);
+    }
 }

@@ -1,6 +1,5 @@
 package com.Travel.Core.User.Dao;
 
-import com.Travel.Core.User.VO.FollowVO;
 import com.Travel.Core.User.VO.UserVO;
 import com.Travel.biz.MyPage.Controller.DuplicateUserIDException;
 import org.apache.ibatis.session.SqlSession;
@@ -48,8 +47,6 @@ public class UserDaoJdbc implements UserDao {
     }
 
     public List<UserVO> getUserFollowings(List<Integer> follows) {
-        for(Integer following : follows)
-            System.out.println("Following : " + following);
         return sqlSession.selectList("getUserFollowings", follows);
     }
 
@@ -67,5 +64,21 @@ public class UserDaoJdbc implements UserDao {
         int exists = sqlSession.selectOne("getEmailExists", email);
         if (exists == DUPLICATE_KEY)
             throw new DuplicateUserIDException(email);
+    }
+
+    public void addFollowing(Integer userSid) {
+        sqlSession.update("addFollowing", userSid);
+    }
+
+    public void deleteFollowing(Integer userSid) {
+        sqlSession.update("deleteFollowing", userSid);
+    }
+
+    public void addFollower(Integer userSid) {
+        sqlSession.update("addFollower", userSid);
+    }
+
+    public void deleteFollower(Integer userSid) {
+        sqlSession.update("deleteFollower", userSid);
     }
 }
