@@ -24,6 +24,8 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class UserVO implements UserDetails {
     int userSid;
+    int followers;
+    int followings;
 
     @NotNull
     @InCorrectID

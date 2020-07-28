@@ -16,7 +16,6 @@ public class UserServiceDto {
     @AllArgsConstructor
     public static class Login {
         String id;
-
         String password;
     }
 

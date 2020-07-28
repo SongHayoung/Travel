@@ -31,20 +31,20 @@
         UPDATE USERS SET email = #{email}, nickname = #{nickname}, password = #{password} WHERE id = #{id}
     </update>
 
-    <update id="addFollower" parameterType="String">
-        UPDATE USERS SET followers = followers + 1 WHERE id = #{id}
+    <update id="addFollower" parameterType="int">
+        UPDATE USERS SET followers = followers + 1 WHERE userSid = #{userSid}
     </update>
 
-    <update id="addFollowing" parameterType="String">
-        UPDATE USERS SET followers = followingss + 1 WHERE id = #{id}
+    <update id="addFollowing" parameterType="int">
+        UPDATE USERS SET followings = followings + 1 WHERE userSid = #{userSid}
     </update>
 
-    <update id="deleteFollower" parameterType="String">
-        UPDATE USERS SET followers = followers - 1 WHERE id = #{id}
+    <update id="deleteFollower" parameterType="int">
+        UPDATE USERS SET followers = followers - 1 WHERE userSid = #{userSid}
     </update>
 
-    <update id="deleteFollowing" parameterType="String">
-        UPDATE USERS SET followers = followingss - 1 WHERE id = #{id}
+    <update id="deleteFollowing" parameterType="int">
+        UPDATE USERS SET followings = followings - 1 WHERE userSid = #{userSid}
     </update>
 
     <delete id="deleteUser" parameterType="User">

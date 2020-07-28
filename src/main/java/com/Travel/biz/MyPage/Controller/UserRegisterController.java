@@ -29,6 +29,7 @@ import java.util.Locale;
 
 @TODO("유저 가입 실패 에러 처리 필요 / authGenerator 어디다 둬야할까")
 @RestController
+@RequestMapping("/register")
 public class UserRegisterController {
     @Autowired UserRegisterService userRegisterService;
     @Autowired MessageSource messageSource;
@@ -55,7 +56,7 @@ public class UserRegisterController {
                 build());
     }
 
-    @PostMapping("/register/valid/id/{userId}")
+    @PostMapping("/valid/id/{userId}")
     public ResponseEntity<String> validateID(@PathVariable("userId") @Valid @RequestBody @InCorrectID String userId, Locale locale) {
         try {
             userRegisterService.isDuplicateId(userId);
@@ -68,7 +69,7 @@ public class UserRegisterController {
     }
 
     //등록이 성공하면 로케일 메세지를 담은 플래시 애트리뷰트를 담아 리다이렉트 시킨다
-    @PostMapping("/register/user")
+    @PostMapping("/user")
     public ResponseEntity<String> addUser(@Valid @RequestBody UserVO user, Locale locale, RedirectAttributes attributes) {
         user.setRoles(Collections.singletonList("ROLE_USER"));
         userRegisterService.addUser(user);

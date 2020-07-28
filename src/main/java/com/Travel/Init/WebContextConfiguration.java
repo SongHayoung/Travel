@@ -73,7 +73,14 @@ public class WebContextConfiguration implements WebMvcConfigurer {
      **/
     @Override
     public void addResourceHandlers(final ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/resources/**").addResourceLocations("/META-INF/webresources/");
+        registry.addResourceHandler("/resources/**")
+                .addResourceLocations("/META-INF/webresources/");
+
+        registry.addResourceHandler("swagger-ui.html")
+                .addResourceLocations("classpath:/META-INF/resources/");
+
+        registry.addResourceHandler("webjars/**")
+                .addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
 
     /**
@@ -93,5 +100,8 @@ public class WebContextConfiguration implements WebMvcConfigurer {
     public void configureMessageConverters( List<HttpMessageConverter<?>> converters ) {
         converters.add(new MappingJackson2HttpMessageConverter());
     }
+
+
+
 }
 

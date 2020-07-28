@@ -8,4 +8,5 @@ public interface FollowDao {
     void follow(FollowVO follow);
     void unFollow(FollowVO follow);
     List<Integer> getFollowings(int userSid);
+    List<Integer> getFollowers(int userSid);
 }
