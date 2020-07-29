@@ -23,8 +23,12 @@
         WHERE USERS.id = #{id}
     </select>
 
-    <select id="getUser" parameterType="String" resultType="User">
+    <select id="getUserById" parameterType="String" resultType="User">
         SELECT * FROM USERS WHERE id = #{id}
+    </select>
+
+    <select id="getUserBySid" parameterType="int" resultType="User">
+        SELECT * FROM USERS WHERE userSid = #{userSid}
     </select>
 
     <update id="updateUser" parameterType="User">

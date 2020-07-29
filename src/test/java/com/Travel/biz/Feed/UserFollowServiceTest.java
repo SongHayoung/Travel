@@ -31,7 +31,7 @@ public class UserFollowServiceTest {
     @Autowired
     UserRegisterService userRegisterService;
 
-    private Logger logger = LoggerFactory.getLogger(FeedServiceDaoTest.class);
+    private Logger logger = LoggerFactory.getLogger(FeedDaoTest.class);
     List<UserVO> users;
 
     @Before

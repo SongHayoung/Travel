@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @TODO("유저 추가 에러처리 로직 필요")
 @Service
-@Transactional
 public class UserRegisterServiceImpl implements UserRegisterService{
     @Autowired UserDao userDao;
     @Autowired MailService mailService;

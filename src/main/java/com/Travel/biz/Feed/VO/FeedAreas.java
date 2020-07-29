@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class FeedAreas {
     private int feedSid;
-    private String tagIds;
+    private String tagId;
 }

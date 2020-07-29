@@ -1,11 +1,15 @@
 package com.Travel.biz.Feed.Dao;
 
 import com.Travel.biz.Feed.VO.Feed;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.List;
 
 @Repository
@@ -29,5 +33,8 @@ public class FeedDaoJdbc implements FeedDao {
     }
     public List<Feed> getFeeds(String userId) {
         return sqlSession.selectList("getFeedsByUserID", userId);
+    }
+    public List<Feed> getUserListFeeds(HashMap<String, Object> followingUserObj) {
+        return sqlSession.selectList("getFollowingUserFeeds", followingUserObj);
     }
 }

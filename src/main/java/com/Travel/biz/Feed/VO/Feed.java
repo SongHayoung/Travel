@@ -15,6 +15,7 @@ import java.util.List;
 public class Feed {
     private String userId;
     private int feedSid;
+    private int userSid;
     private int likes;
     private String contents;
     private Date upload_time;
