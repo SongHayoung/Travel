@@ -12,6 +12,7 @@ public interface UserDao {
     void updateUser(UserVO user);
     void deleteUser(UserVO user);
     UserVO getUser(String id) throws NoValueException;
+    UserVO getUser(int userSid) throws NoValueException;
     int getUserCount();
     void isIdExists(String id) throws DuplicateKeyException;
     void isEmailExists(String email) throws DuplicateKeyException;

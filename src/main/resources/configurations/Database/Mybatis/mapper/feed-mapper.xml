@@ -24,4 +24,13 @@
     <select id="getFeedsByUserID" parameterType="String" resultType="Feed">
         SELECT * FROM FEEDS WHERE userSid = (SELECT userSid FROM USERS WHERE USERS.id = #{userId});
     </select>
+
+    <select id="getFollowingUserFeeds" parameterType="hashmap" resultType="Feed">
+        SELECT * FROM FEEDS WHERE
+        <foreach collection="followingUserSids" item="userSid"  open="(" close=")" separator="OR">
+            userSid = #{userSid}
+        </foreach>
+         AND upload_time <![CDATA[ > ]]> #{timestamp}
+         ORDER BY upload_time DESC LIMIT #{requestTimes}, 10;
+    </select>
 </mapper>

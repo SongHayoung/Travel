@@ -2,6 +2,7 @@ package com.Travel.Core.User.Dao;
 
 import com.Travel.Core.User.VO.UserVO;
 import com.Travel.biz.MyPage.Controller.DuplicateUserIDException;
+import io.swagger.models.auth.In;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -25,10 +26,20 @@ public class UserDaoJdbc implements UserDao {
     }
 
     public UserVO getUser(String id) throws NoValueException {
-        UserVO targetUser = (UserVO) sqlSession.selectOne("getUser", id);
+        UserVO targetUser = (UserVO) sqlSession.selectOne("getUserById", id);
         if (targetUser == null)
             throw new NoValueException(id);
         targetUser.setRoles(getUserAuth(id));
+
+
+        return targetUser;
+    }
+
+    public UserVO getUser(int userSid) throws NoValueException {
+        UserVO targetUser = (UserVO) sqlSession.selectOne("getUserBySid", userSid);
+        if (targetUser == null)
+            throw new NoValueException("USERSID : " + Integer.toString(userSid));
+        targetUser.setRoles(getUserAuth(targetUser.getId()));
 
 
         return targetUser;

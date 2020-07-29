@@ -27,7 +27,5 @@ public class FeedAreaDaoJdbc implements FeedAreaDao{
             sqlSession.delete("deleteFeedAreas", area);
     }
 
-    public List<FeedAreas> getAreas(int feedSid) {
-        return sqlSession.selectList("getFeedAreas", feedSid);
-    }
+    public List<FeedAreas> getAreas(int feedSid) { return sqlSession.selectList("getFeedAreas", feedSid); }
 }

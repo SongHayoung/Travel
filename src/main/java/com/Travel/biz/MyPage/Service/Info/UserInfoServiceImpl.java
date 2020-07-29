@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-@Transactional
 public class UserInfoServiceImpl implements UserInfoService {
     @Autowired UserDao userDao;
     @Autowired FollowDao followDao;
