@@ -23,13 +23,22 @@ public class UserCoreServiceImpl implements UserCoreService{
         UserVO followerUser = getUserByID(follower);
         UserVO followingUser = getUserByID(following);
         followDao.follow(FollowVO.builder().follower(followerUser.getUserSid()).following(followingUser.getUserSid()).build());
+        increaseFollowCount(followerUser, followingUser);
+    }
+
+    private void increaseFollowCount(UserVO followerUser, UserVO followingUser) {
         userDao.addFollowing(followerUser.getUserSid());
         userDao.addFollower(followingUser.getUserSid());
     }
+
     public void unFollow(String follower, String following) {
         UserVO followerUser = getUserByID(follower);
         UserVO followingUser = getUserByID(following);
         followDao.follow(FollowVO.builder().follower(followerUser.getUserSid()).following(followingUser.getUserSid()).build());
+        decreaseFollowCount(followerUser, followingUser);
+    }
+
+    private void decreaseFollowCount(UserVO followerUser, UserVO followingUser) {
         userDao.deleteFollowing(followerUser.getUserSid());
         userDao.deleteFollower(followingUser.getUserSid());
     }

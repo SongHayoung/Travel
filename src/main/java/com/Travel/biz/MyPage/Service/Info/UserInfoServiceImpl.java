@@ -1,5 +1,6 @@
 package com.Travel.biz.MyPage.Service.Info;
 
+import com.Travel.Core.Annotations.TODO;
 import com.Travel.Core.User.Dao.FollowDao;
 import com.Travel.Core.User.Dao.UserDao;
 import com.Travel.Core.User.VO.UserVO;
@@ -42,11 +43,21 @@ public class UserInfoServiceImpl implements UserInfoService {
 
     public void deleteUserByID(String userId) {
         UserVO targetUser = userDao.getUser(userId);
-        userDao.deleteUser(targetUser);
-        List<Integer> followings = followDao.getFollowings(targetUser.getUserSid());
-        List<Integer> followers = followDao.getFollowers(targetUser.getUserSid());
+        userDao.deleteUser(userId);
+        deleteFollowings(targetUser.getUserSid());
+        deleteFollowers(targetUser.getUserSid());
+    }
+
+    private void deleteFollowings(int userSid) {
+        List<Integer> followings = followDao.getFollowings(userSid);
+
         for(Integer following : followings)
             userDao.deleteFollowing(following);
+    }
+
+    private void deleteFollowers(int userSid) {
+        List<Integer> followers = followDao.getFollowers(userSid);
+
         for(Integer follower : followers)
             userDao.deleteFollower(follower);
     }

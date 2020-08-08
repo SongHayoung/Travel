@@ -35,18 +35,34 @@ public class FeedServiceImpl implements FeedService{
     UserDao userDao;
 
     public void addFeed(Feed feed) {
-        int feedId = feedDao.addFeed(feed);
-        for(Plan plan : feed.getPlans()) {
-            plan.setFeedSid(feedId);
-            int planId = planDao.addPlan(plan);
-            for(DailyPlan dailyPlan : plan.getDailyPlanList()){
-                dailyPlan.setPlanSid(planId);
-                dailyPlanDao.addDailyPlan(dailyPlan);
-            }
+        int feedSid = feedDao.addFeed(feed);
+        addPlans(feed.getPlans(), feedSid);
+        addAreas(feed.getAreas(), feedSid);
+    }
+
+    private void addPlans(List<Plan> plans, int feedSid) {
+        for(Plan plan : plans) {
+            addPlan(plan, feedSid);
         }
-        for(FeedAreas feedAreas : feed.getAreas())
-            feedAreas.setFeedSid(feedId);
-        feedAreaDao.addAreas(feed.getAreas());
+    }
+
+    private void addPlan(Plan plan, int feedSid) {
+        plan.setFeedSid(feedSid);
+        int planSid = planDao.addPlan(plan);
+        addDailyPlans(plan.getDailyPlanList(), planSid);
+    }
+
+    private void addDailyPlans(List<DailyPlan> dailyPlans, int planSid) {
+        for(DailyPlan dailyPlan : dailyPlans){
+            dailyPlan.setPlanSid(planSid);
+            dailyPlanDao.addDailyPlan(dailyPlan);
+        }
+    }
+
+    private void addAreas(List<FeedAreas> areas, int feedSid) {
+        for(FeedAreas feedAreas : areas)
+            feedAreas.setFeedSid(feedSid);
+        feedAreaDao.addAreas(areas);
     }
 
     public void deleteFeed(int feedSid) {
@@ -55,14 +71,26 @@ public class FeedServiceImpl implements FeedService{
 
     public void updateFeed(Feed feed) {
         feedDao.updateFeed(feed);
-        for(Plan plan : feed.getPlans()) {
+        updatePlans(feed.getPlans());
+        updateFeedAreas(feed.getAreas(), feed.getFeedSid());
+    }
+
+    private void updatePlans(List<Plan> plans) {
+        for(Plan plan : plans) {
             planDao.updatePlan(plan);
-            for(DailyPlan dailyPlan : plan.getDailyPlanList()){
-                dailyPlanDao.updateDailyPlan(dailyPlan);
-            }
+            updateDailyPlans(plan.getDailyPlanList());
         }
-        feedAreaDao.deleteAreas(feedAreaDao.getAreas(feed.getFeedSid()));
-        feedAreaDao.addAreas(feed.getAreas());
+    }
+
+    private void updateFeedAreas(List<FeedAreas> feedAreas, int feedSid) {
+        feedAreaDao.deleteAreas(feedAreaDao.getAreas(feedSid));
+        feedAreaDao.addAreas(feedAreas);
+    }
+
+    private void updateDailyPlans(List<DailyPlan> dailyPlans) {
+        for(DailyPlan dailyPlan : dailyPlans){
+            dailyPlanDao.updateDailyPlan(dailyPlan);
+        }
     }
 
     public Feed getFeed(int feedSid) {
@@ -74,43 +102,70 @@ public class FeedServiceImpl implements FeedService{
     public List<Feed> getUserFeeds(String userId) {
         List<Feed> feeds = feedDao.getFeeds(userId);
 
+        /*
         for(int i = 0; i < feeds.size(); ++i)
             getFeedDetail(feeds.get(i));
+         */
 
         return feeds;
     }
 
     private Feed getFeedDetail(Feed feed) {
-        feed.setUserId(userDao.getUser(feed.getUserSid()).getId());
-        feed.setAreas(feedAreaDao.getAreas(feed.getFeedSid()));
-        List<Plan> plans = planDao.getPlans(feed.getFeedSid());
-        for(int i = 0; i < plans.size(); ++i) {
-            plans.get(i).setDailyPlanList(
-                    dailyPlanDao.getDailyPlans(
-                            plans.get(i).getPlanSid()));
-        }
-        feed.setPlans(plans);
+        feed.setUserId(userDao.getUser(
+                feed.getUserSid())
+                .getId());
+        feed.setAreas(feedAreaDao.getAreas(
+                feed.getFeedSid()));
+        feed.setPlans(
+                getPlans(feed.getFeedSid()));
 
         return feed;
     }
 
-    public List<Feed> getFollowingUserFeeds(String userId, Timestamp timestamp, int requestTimes) {
-        List<UserVO> followings = userCoreService.getFollowings(userId);
+    private List<Plan> getPlans(int feedSid) {
+        List<Plan> plans = planDao.getPlans(feedSid);
+        for(int i = 0; i < plans.size(); ++i) {
+            plans.get(i).setDailyPlanList(
+                    getDailyPlans(plans.get(i).getPlanSid()));
+        }
+
+        return plans;
+    }
+
+    private List<DailyPlan> getDailyPlans(int planSid) {
+        return dailyPlanDao.getDailyPlans(planSid);
+    }
+
+    public List<Feed> getFollowingUserFeeds(String userSid, Timestamp timestamp, int requestTimes) {
+        HashMap<String, Object> followingUserObj = setHashMapObject(userSid, timestamp, requestTimes);
+
+        List<Feed> feeds = feedDao.getUserListFeeds(followingUserObj);
+
+        /*
+        for(Feed feed : feeds)
+            feed = getFeedDetail(feed);
+            */
+
+        return feeds;
+    }
+
+    private List<Integer> getFollowingUserSids(String userSid) {
+        List<UserVO> followingUsers = userCoreService.getFollowings(userSid);
         List<Integer> followingUserSids = new ArrayList<>();
-        for(UserVO user : followings)
+        for (UserVO user : followingUsers)
             followingUserSids.add(user.getUserSid());
+
+        return followingUserSids;
+    }
+
+    private HashMap<String, Object> setHashMapObject(String userSid, Timestamp timestamp, int requestTimes) {
+        List<Integer> followingUserSids = getFollowingUserSids(userSid);
 
         HashMap<String, Object> followingUserObj = new HashMap<>();
         followingUserObj.put("followingUserSids", followingUserSids);
         followingUserObj.put("timestamp", timestamp);
         followingUserObj.put("requestTimes", 10 * requestTimes);
 
-        List<Feed> feeds = feedDao.getUserListFeeds(followingUserObj);
-
-        for(Feed feed : feeds) {
-            feed = getFeedDetail(feed);
-        }
-
-        return feeds;
+        return followingUserObj;
     }
 }

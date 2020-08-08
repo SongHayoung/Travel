@@ -1,6 +1,7 @@
 package com.Travel.biz.MyPage.Controller;
 
 import com.Travel.Core.Annotations.TODO;
+import com.Travel.Core.Jwt.InvalidUserRequestTokenException;
 import com.Travel.Core.Jwt.JwtTokenProvider;
 import com.Travel.Core.User.Service.UserCoreService;
 import com.Travel.Core.User.VO.UserVO;
@@ -25,7 +26,8 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Locale;
 
-@TODO("유저 삭제 실패시 에러처리 필요")
+@TODO("유저 삭제 실패시 에러처리 필요" +
+        "개인화 서비스는 컨트롤러 레이어에서 토큰 검증 필요")
 @Controller
 @RequestMapping("/users")
 public class UserServiceController {
@@ -54,8 +56,13 @@ public class UserServiceController {
 
     @PatchMapping("/{userId}/nickname/{nickname}")
     @ApiOperation(value = "/user/{userId}/nickname/{nickname}", notes = "사용자 닉네임 변경")
-    public ResponseEntity<String> updateUserNickname(@PathVariable("userId") String userId, @PathVariable("nickname") @Valid @InCorrectNickName String nickname, Locale locale, RedirectAttributes attr) {
-        System.out.println(userId + nickname);
+    public ResponseEntity<String> updateUserNickname(@PathVariable("userId") String userId, @PathVariable("nickname") @Valid @InCorrectNickName String nickname,
+                                                     Locale locale, RedirectAttributes attr, @RequestHeader("X-AUTH-TOKEN") String token) {
+        try {
+            jwtTokenProvider.validateUser(userId, token);
+        } catch (InvalidUserRequestTokenException e) {
+
+        }
         userInfoService.updateUserNickNameByID(userId, nickname);
 
         attr.addFlashAttribute(messageSource.getMessage("userService.nicknameChanged", null,locale));
@@ -66,7 +73,9 @@ public class UserServiceController {
 
     @PatchMapping("/{userId}/password")
     @ApiOperation(value = "/user/{userId}/password", notes = "사용자 비밀번호 변경")
-    public ResponseEntity<String> updateUserPassword(@PathVariable("userId") String userId, @Valid @RequestBody UserServiceDto.ChangePass user, Locale locale, RedirectAttributes attr) {
+    public ResponseEntity<String> updateUserPassword(@PathVariable("userId") String userId, @Valid @RequestBody UserServiceDto.ChangePass user,
+                                                     Locale locale, RedirectAttributes attr, @RequestHeader("X-AUTH-TOKEN") String token) {
+        jwtTokenProvider.validateUser(userId, token);
         try {
             userInfoService.updateUserPasswordByID(userId, user);
         }
@@ -87,7 +96,8 @@ public class UserServiceController {
     @DeleteMapping("/{userId}")
     @ApiOperation(value = "/user/{userId}", notes = "사용자 탈퇴")
     @ResponseBody
-    public ResponseEntity<String> deleteUser(@PathVariable("userId") @Valid @RequestBody String userId, Locale locale) {
+    public ResponseEntity<String> deleteUser(@PathVariable("userId") @Valid @RequestBody String userId, Locale locale,  @RequestHeader("X-AUTH-TOKEN") String token) {
+        jwtTokenProvider.validateUser(userId, token);
         userInfoService.deleteUserByID(userId);
 
         return ResponseEntity.ok(messageSource.getMessage("userService.deleteUser", null, locale));
@@ -96,7 +106,8 @@ public class UserServiceController {
     @PostMapping("/{follower}/follow/{following}")
     @ApiOperation(value = "/user/{follower}/follow/{following}", notes = "사용자 팔로우")
     @ResponseBody
-    public ResponseEntity<String> followUser(@PathVariable("follower") String follower, @PathVariable("following") String following, Locale locale) {
+    public ResponseEntity<String> followUser(@PathVariable("follower") String follower, @PathVariable("following") String following, Locale locale,  @RequestHeader("X-AUTH-TOKEN") String token) {
+        jwtTokenProvider.validateUser(follower, token);
         userCoreService.follow(follower, following);
 
         return ResponseEntity.ok(messageSource.getMessage("userService.follow", null, locale));
@@ -105,7 +116,8 @@ public class UserServiceController {
     @PostMapping("/{follower}/unfollow/{following}")
     @ApiOperation(value = "/user/{follower}/unfollow/{following}", notes = "사용자 언팔로우")
     @ResponseBody
-    public ResponseEntity<String> unFollowUser(@PathVariable("follower") String follower, @PathVariable("following") String following, Locale locale) {
+    public ResponseEntity<String> unFollowUser(@PathVariable("follower") String follower, @PathVariable("following") String following, Locale locale,  @RequestHeader("X-AUTH-TOKEN") String token) {
+        jwtTokenProvider.validateUser(follower, token);
         userCoreService.unFollow(follower, following);
 
         return ResponseEntity.ok(messageSource.getMessage("userService.unFollow", null, locale));

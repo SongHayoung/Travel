@@ -53,8 +53,8 @@ public class UserDaoJdbc implements UserDao {
         sqlSession.update("updateUser", user);
     }
 
-    public void deleteUser(UserVO user) {
-        sqlSession.delete("deleteUser", user);
+    public void deleteUser(String userId) {
+        sqlSession.delete("deleteUser", userId);
     }
 
     public List<UserVO> getUserFollowings(List<Integer> follows) {
