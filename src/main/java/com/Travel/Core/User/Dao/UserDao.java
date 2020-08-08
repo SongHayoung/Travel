@@ -10,7 +10,7 @@ import java.util.List;
 public interface UserDao {
     void addUser(UserVO user);
     void updateUser(UserVO user);
-    void deleteUser(UserVO user);
+    void deleteUser(String userId);
     UserVO getUser(String id) throws NoValueException;
     UserVO getUser(int userSid) throws NoValueException;
     int getUserCount();

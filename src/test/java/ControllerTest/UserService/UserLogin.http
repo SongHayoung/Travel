@@ -1,4 +1,4 @@
-POST https://localhost:8443/users/login
+POST http://101.101.218.52:8080/Spring_Travel-1.0-SNAPSHOT/users/login
 Content-Type: application/json
 
 {

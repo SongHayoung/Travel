@@ -73,4 +73,11 @@ public class JwtTokenProvider {
             return false;
         }
     }
+
+    public boolean validateUser(String userId, String token) {
+        String tokenId = getUserPk(token);
+        if(!userId.equals(token))
+            throw new InvalidUserRequestTokenException("Invalid User Token");
+        return true;
+    }
 }

@@ -51,7 +51,7 @@
         UPDATE USERS SET followings = followings - 1 WHERE userSid = #{userSid}
     </update>
 
-    <delete id="deleteUser" parameterType="User">
+    <delete id="deleteUser" parameterType="String">
         DELETE FROM USERS WHERE id = #{id}
     </delete>
 
