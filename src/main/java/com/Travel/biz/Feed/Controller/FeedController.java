@@ -3,6 +3,7 @@ package com.Travel.biz.Feed.Controller;
 import com.Travel.Core.Annotations.TODO;
 import com.Travel.Core.Jwt.JwtTokenProvider;
 import com.Travel.biz.Feed.Service.FeedService;
+import com.Travel.biz.Feed.Service.FileUploader;
 import com.Travel.biz.Feed.VO.Feed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,10 @@ public class FeedController {
     @Autowired
     JwtTokenProvider jwtTokenProvider;
 
-    @GetMapping("/feedSid/{feedSid}")
+    @Autowired
+    FileUploader fileUploader;
+
+    @GetMapping("/{feedSid}")
     public Feed getFeedByFeedSid(@PathVariable("feedSid") int feedSid) {
         return feedService.getFeed(feedSid);
     }
@@ -42,9 +46,9 @@ public class FeedController {
         return "success";
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{feedSid}")
     @TODO("feedSid invalid할때 처리 필요")
-    public String deleteFeed(@RequestBody int feedSid, @RequestHeader("X-AUTH-TOKEN") String token) {
+    public String deleteFeed(@PathVariable("feedSid") int feedSid, @RequestHeader("X-AUTH-TOKEN") String token) {
         //jwtTokenProvider.validateUser()
         feedService.deleteFeed(feedSid);
 
@@ -57,7 +61,7 @@ public class FeedController {
         return feedService.getFollowingUserFeeds(jwtTokenProvider.getUserPk(token), timestamp, requestTimes);
     }
 
-    @GetMapping("/{userId}")
+    @GetMapping("/user/{userId}")
     @TODO("is Following? 구현 필요 어디다 선언하지")
     public List<Feed> getUserFeed(@PathVariable("userId") String userId) {
         return feedService.getUserFeeds(userId);
