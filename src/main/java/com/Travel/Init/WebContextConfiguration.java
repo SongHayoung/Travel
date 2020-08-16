@@ -7,6 +7,7 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.mobile.device.DeviceResolverHandlerInterceptor;
 import org.springframework.mobile.device.view.LiteDeviceDelegatingViewResolver;
+import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
@@ -60,6 +61,14 @@ public class WebContextConfiguration implements WebMvcConfigurer {
     }
 
     /**
+     ** 파일 업로드 처리
+     **/
+    @Bean
+    public StandardServletMultipartResolver multipartResolver() {
+        return new StandardServletMultipartResolver();
+    }
+
+    /**
      ** 로케일 인터셉터 추가
      **/
     @Override
@@ -100,8 +109,5 @@ public class WebContextConfiguration implements WebMvcConfigurer {
     public void configureMessageConverters( List<HttpMessageConverter<?>> converters ) {
         converters.add(new MappingJackson2HttpMessageConverter());
     }
-
-
-
 }
 

@@ -3,14 +3,8 @@ package com.Travel.biz.Feed.Service;
 import com.Travel.Core.User.Dao.UserDao;
 import com.Travel.Core.User.Service.UserCoreService;
 import com.Travel.Core.User.VO.UserVO;
-import com.Travel.biz.Feed.Dao.DailyPlanDao;
-import com.Travel.biz.Feed.Dao.FeedAreaDao;
-import com.Travel.biz.Feed.Dao.FeedDao;
-import com.Travel.biz.Feed.Dao.PlanDao;
-import com.Travel.biz.Feed.VO.DailyPlan;
-import com.Travel.biz.Feed.VO.Feed;
-import com.Travel.biz.Feed.VO.FeedAreas;
-import com.Travel.biz.Feed.VO.Plan;
+import com.Travel.biz.Feed.Dao.*;
+import com.Travel.biz.Feed.VO.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +24,8 @@ public class FeedServiceImpl implements FeedService{
     @Autowired
     FeedAreaDao feedAreaDao;
     @Autowired
+    FeedImageDao feedImageDao;
+    @Autowired
     UserCoreService userCoreService;
     @Autowired
     UserDao userDao;
@@ -38,6 +34,7 @@ public class FeedServiceImpl implements FeedService{
         int feedSid = feedDao.addFeed(feed);
         addPlans(feed.getPlans(), feedSid);
         addAreas(feed.getAreas(), feedSid);
+        addImages(feed.getImages(), feedSid);
     }
 
     private void addPlans(List<Plan> plans, int feedSid) {
@@ -57,6 +54,11 @@ public class FeedServiceImpl implements FeedService{
             dailyPlan.setPlanSid(planSid);
             dailyPlanDao.addDailyPlan(dailyPlan);
         }
+    }
+
+    private void addImages(FeedImages feedImages, int planSid) {
+        feedImages.setFeedSid(planSid);
+        feedImageDao.addImagePath(feedImages);
     }
 
     private void addAreas(List<FeedAreas> areas, int feedSid) {
@@ -93,6 +95,10 @@ public class FeedServiceImpl implements FeedService{
         }
     }
 
+    private void updateImages(FeedImages feedImages) {
+        feedImageDao.updateImagePath(feedImages);
+    }
+
     public Feed getFeed(int feedSid) {
         Feed feed = feedDao.getFeed(feedSid);
 
@@ -118,6 +124,7 @@ public class FeedServiceImpl implements FeedService{
                 feed.getFeedSid()));
         feed.setPlans(
                 getPlans(feed.getFeedSid()));
+        feed.setImages(getImages(feed.getFeedSid()));
 
         return feed;
     }
@@ -134,6 +141,10 @@ public class FeedServiceImpl implements FeedService{
 
     private List<DailyPlan> getDailyPlans(int planSid) {
         return dailyPlanDao.getDailyPlans(planSid);
+    }
+
+    private FeedImages getImages(int planSid) {
+        return feedImageDao.getImagePaths(planSid);
     }
 
     public List<Feed> getFollowingUserFeeds(String userSid, Timestamp timestamp, int requestTimes) {
