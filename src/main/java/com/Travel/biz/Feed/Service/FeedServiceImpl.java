@@ -1,18 +1,22 @@
 package com.Travel.biz.Feed.Service;
 
+import com.Travel.Core.Annotations.TODO;
 import com.Travel.Core.User.Dao.UserDao;
 import com.Travel.Core.User.Service.UserCoreService;
 import com.Travel.Core.User.VO.UserVO;
 import com.Travel.biz.Feed.Dao.*;
+import com.Travel.biz.Feed.Dto.FeedImagesDto;
 import com.Travel.biz.Feed.VO.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+@TODO("get feed 컨트롤러 레이어에서 테스트 필요")
 @Service
 public class FeedServiceImpl implements FeedService{
     @Autowired
@@ -26,15 +30,26 @@ public class FeedServiceImpl implements FeedService{
     @Autowired
     FeedImageDao feedImageDao;
     @Autowired
+    ImageDao imageDao;
+    @Autowired
     UserCoreService userCoreService;
     @Autowired
     UserDao userDao;
 
-    public void addFeed(Feed feed) {
+    public void addFeed(Feed feed, MultipartFile[] multipartFiles) {
+        setFeedImagePaths(feed, multipartFiles);
         int feedSid = feedDao.addFeed(feed);
         addPlans(feed.getPlans(), feedSid);
         addAreas(feed.getAreas(), feedSid);
         addImages(feed.getImages(), feedSid);
+    }
+
+    private void setFeedImagePaths(Feed feed, MultipartFile[] multipartFiles) {
+        feed.getImages().setImage_path(saveImages(multipartFiles));
+    }
+
+    private List<String> saveImages(MultipartFile[] multipartFiles) {
+        return imageDao.addImages(multipartFiles);
     }
 
     private void addPlans(List<Plan> plans, int feedSid) {
@@ -71,7 +86,8 @@ public class FeedServiceImpl implements FeedService{
         feedDao.deleteFeed(feedSid);
     }
 
-    public void updateFeed(Feed feed) {
+    public void updateFeed(Feed feed, MultipartFile[] multipartFiles) {
+        setFeedImagePaths(feed, multipartFiles);
         feedDao.updateFeed(feed);
         updatePlans(feed.getPlans());
         updateFeedAreas(feed.getAreas(), feed.getFeedSid());
@@ -125,6 +141,7 @@ public class FeedServiceImpl implements FeedService{
         feed.setPlans(
                 getPlans(feed.getFeedSid()));
         feed.setImages(getImages(feed.getFeedSid()));
+        feed.setImages(FeedImagesDto.builder().images(imageDao.getImages(feed.getImages().getImage_path())).build());
 
         return feed;
     }

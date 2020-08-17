@@ -3,10 +3,10 @@ package com.Travel.biz.Feed.Controller;
 import com.Travel.Core.Annotations.TODO;
 import com.Travel.Core.Jwt.JwtTokenProvider;
 import com.Travel.biz.Feed.Service.FeedService;
-import com.Travel.biz.Feed.Service.FileUploader;
 import com.Travel.biz.Feed.VO.Feed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -20,9 +20,6 @@ public class FeedController {
     @Autowired
     JwtTokenProvider jwtTokenProvider;
 
-    @Autowired
-    FileUploader fileUploader;
-
     @GetMapping("/{feedSid}")
     public Feed getFeedByFeedSid(@PathVariable("feedSid") int feedSid) {
         return feedService.getFeed(feedSid);
@@ -30,18 +27,18 @@ public class FeedController {
 
     @PostMapping
     @TODO("이미지 처리 로직 필요")
-    public String postFeed(@RequestBody Feed feed, @RequestHeader("X-AUTH-TOKEN") String token) {
+    public String postFeed(@RequestBody Feed feed, @RequestParam("uploadFile") MultipartFile[] files, @RequestHeader("X-AUTH-TOKEN") String token) {
         jwtTokenProvider.validateUser(feed.getUserId(), token);
-        feedService.addFeed(feed);
+        feedService.addFeed(feed, files);
 
         return "success";
     }
 
     @PatchMapping
     @TODO("feedSid invalid할때 처리 필요")
-    public String updateFeed(@RequestBody Feed feed, @RequestHeader("X-AUTH-TOKEN") String token) {
+    public String updateFeed(@RequestBody Feed feed, @RequestParam("uploadFile") MultipartFile[] files, @RequestHeader("X-AUTH-TOKEN") String token) {
         jwtTokenProvider.validateUser(feed.getUserId(), token);
-        feedService.updateFeed(feed);
+        feedService.updateFeed(feed, files);
 
         return "success";
     }
